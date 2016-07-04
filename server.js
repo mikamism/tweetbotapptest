@@ -61,6 +61,13 @@ bot.add('/find', [
   }, 
 ]);
 
+bot.add('/EXILE', [
+  function(session) { 
+    builder.Prompts.text(session, 'Ki・mi・ni・mu・chu');
+  },
+]);
+
+
 var server = restify.createServer();
 server.post('/api/messages', bot.verifyBotFramework(), bot.listen());
 server.listen(process.env.port || 3978, function () {
