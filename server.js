@@ -15,6 +15,7 @@ bot.use(function(session, next) {
 bot.add('/', new builder.CommandDialog()
   .matches('^(regist|add)',  builder.DialogAction.beginDialog('/regist'))
   .matches('^(find|search)', builder.DialogAction.beginDialog('/find'))
+  .matches('^(exile|search)', builder.DialogAction.beginDialog('/exile'))
   .matches('^list', showList)
   .onDefault(function (session) {
     var msg = 'you have ' + session.userData.addrbook.length + ' data.';
@@ -61,7 +62,7 @@ bot.add('/find', [
   }, 
 ]);
 
-bot.add('/EXILE', [
+bot.add('/exile', [
   function(session) { 
     builder.Prompts.text(session, 'Ki・mi・ni・mu・chu');
   },
