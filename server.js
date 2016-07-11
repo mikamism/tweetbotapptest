@@ -65,6 +65,9 @@ bot.add('/find', [
 // exileと話しかけた場合の処理
 bot.add('/exile', [
   function(session) {
+
+builder.Prompts.text(session, 'kiminimuchu1');
+
     // コネクションの作成
     var Connection = require('tedious').Connection;
     var config = {
@@ -74,6 +77,9 @@ bot.add('/exile', [
       // Azure上のDBの場合は必須
       options: {encrypt: true, database: 'AdventureWorks'}
     };
+
+builder.Prompts.text(session, 'kiminimuchu2');
+
     var connection = new Connection(config);
     connection.on('connect', function(err) {
       // If no error, then good to proceed. 
@@ -82,7 +88,7 @@ bot.add('/exile', [
       //executeStatement(session);
     });
 
-    builder.Prompts.text(session, 'kiminimuchu');
+builder.Prompts.text(session, 'kiminimuchu3');
     //session.send("kiminimuchu");
     //session.endDialog();
     
@@ -92,7 +98,7 @@ bot.add('/exile', [
   function executeStatement(session) {
     // クエリの作成
     request = new Request("SELECT a.username,MAX(a.follower) FROM dbo.TwitteruserFollowerList a WHERE a.username like 'EXILE%' GROUP BY a.username;", function(err) {
-      if (err) {  
+      if (err) { 
         console.log(err);
       }
     });
