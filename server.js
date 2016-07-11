@@ -71,7 +71,7 @@ builder.Prompts.text(session, 'kiminimuchu1');
     // コネクションの作成
     var Connection = require('tedious').Connection;
     var config = {
-      userName: 'socialtestdb',
+      userName: 'socialtestdb@socialtestdb.database.windows.net',
       password: 'ufeuQ7sPu2',
       server: 'socialtestdb.database.windows.net',
       // Azure上のDBの場合は必須
@@ -85,7 +85,7 @@ builder.Prompts.text(session, 'kiminimuchu2');
       // If no error, then good to proceed. 
       console.log("Connected");
       builder.Prompts.text(session, 'connection!!');
-      //executeStatement(session);
+      executeStatement(session);
     });
 
 builder.Prompts.text(session, 'kiminimuchu3');
