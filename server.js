@@ -66,8 +66,6 @@ bot.add('/find', [
 bot.add('/exile', [
   function(session) {
 
-builder.Prompts.text(session, 'kiminimuchu1');
-
     // コネクションの作成
     var Connection = require('tedious').Connection;
     var config = {
