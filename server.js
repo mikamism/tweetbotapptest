@@ -62,57 +62,60 @@ bot.add('/find', [
   }, 
 ]);
 
+// exileと話しかけた場合の処理
 bot.add('/exile', [
-function(session) { 
-
-var Connection = require('tedious').Connection;  
-    var config = {  
-        userName: 'socialtestdb',  
-        password: 'ufeuQ7sPu2',  
-        server: 'socialtestdb.database.windows.net',  
-        // If you are on Microsoft Azure, you need this:  
-        options: {encrypt: true, database: 'AdventureWorks'}  
-    };  
-    var connection = new Connection(config);  
-    connection.on('connect', function(err) {  
-    // If no error, then good to proceed.  
-        console.log("Connected"); 
-        executeStatement(session); 
+  function(session) {
+    // コネクションの作成
+    var Connection = require('tedious').Connection;
+    var config = {
+      userName: 'socialtestdb',
+      password: 'ufeuQ7sPu2',
+      server: 'socialtestdb.database.windows.net',
+      // Azure上のDBの場合は必須
+      options: {encrypt: true, database: 'AdventureWorks'}
+    };
+    var connection = new Connection(config);
+    connection.on('connect', function(err) {
+      // If no error, then good to proceed. 
+      console.log("Connected");
+      executeStatement(session);
     });
     
-    var Request = require('tedious').Request;  
+    var Request = require('tedious').Request;
     var TYPES = require('tedious').TYPES;
-},
-function executeStatement(session) {  
-        request = new Request("SELECT a.username,MAX(a.follower) FROM dbo.TwitteruserFollowerList a WHERE a.username like 'EXILE%' GROUP BY a.username;", function(err) {  
-        if (err) {  
-            console.log(err);}  
-        });  
-        var result = "";  
-        request.on('row', function(columns) {  
-            columns.forEach(function(column) {  
-              if (column.value === null) {  
-                console.log('NULL');  
-              } else {  
-                result+= column.value + " ";  
-              }  
-            });  
-            console.log(result);  
-            result ="";  
-        });  
-  
-        request.on('done', function(rowCount, more) {  
-        console.log(rowCount + ' rows returned');  
-        });  
-        connection.execSql(request);  
-        
-        builder.Prompts.text(session, result);
-    }
-]);
+  },
+  function executeStatement(session) {
+    // クエリの作成
+    request = new Request("SELECT a.username,MAX(a.follower) FROM dbo.TwitteruserFollowerList a WHERE a.username like 'EXILE%' GROUP BY a.username;", function(err) {
+      if (err) {  
+        console.log(err);
+      }
+    });
+    var result = "";
+    request.on('row', function(columns) {
+      columns.forEach(function(column) {
+        if (column.value === null) {
+          console.log('NULL');
+        } else {
+          result+= column.value + " ";
+        }
+      });
+      console.log(result);
+      result ="";
+    });
 
+    request.on('done', function(rowCount, more) {
+      console.log(rowCount + ' rows returned');
+    });
+    connection.execSql(request);
+    //builder.Prompts.text(session, result);
+    session.send("kiminimuchu");
+    session.endDialog();
+  }
+]);
 
 var server = restify.createServer();
 server.post('/api/messages', bot.verifyBotFramework(), bot.listen());
 server.listen(process.env.port || 3978, function () {
-  console.log('%s listening to %s', server.name, server.url); 
+  console.log('%s listening to %s', server.name, server.url);
 });
