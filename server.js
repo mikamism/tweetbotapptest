@@ -82,6 +82,7 @@ bot.add('/exile', [
       //executeStatement(session);
     });
 
+    builder.Prompts.text(session, 'kiminimuchu');
     //session.send("kiminimuchu");
     //session.endDialog();
     
