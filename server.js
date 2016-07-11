@@ -78,11 +78,12 @@ bot.add('/exile', [
     connection.on('connect', function(err) {
       // If no error, then good to proceed. 
       console.log("Connected");
-      executeStatement(session);
+      builder.Prompts.text(session, 'connection!!');
+      //executeStatement(session);
     });
 
-    session.send("kiminimuchu");
-    session.endDialog();
+    //session.send("kiminimuchu");
+    //session.endDialog();
     
     var Request = require('tedious').Request;
     var TYPES = require('tedious').TYPES;
