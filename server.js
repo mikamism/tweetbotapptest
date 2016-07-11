@@ -80,6 +80,9 @@ bot.add('/exile', [
       console.log("Connected");
       executeStatement(session);
     });
+
+    session.send("kiminimuchu");
+    session.endDialog();
     
     var Request = require('tedious').Request;
     var TYPES = require('tedious').TYPES;
@@ -109,8 +112,6 @@ bot.add('/exile', [
     });
     connection.execSql(request);
     //builder.Prompts.text(session, result);
-    session.send("kiminimuchu");
-    session.endDialog();
   }
 ]);
 
