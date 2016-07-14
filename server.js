@@ -40,6 +40,8 @@ bot.add('/exile', [
             options: { encrypt: true, database: 'socialtestdb' }
         };
 
+        builder.Prompts.text(session, 'connection get!');
+
         var connection = new Connection(config);
         connection.on('connect', function (err) {
             // If no error, then good to proceed. 
