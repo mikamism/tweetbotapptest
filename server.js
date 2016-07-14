@@ -70,9 +70,12 @@ function executeStatement(session, connection) {
             }
         });
         //console.log(result);
-        builder.Prompts.text(session, result);
+        //builder.Prompts.text(session, result);
+        session.send(result);
         result = "";
     });
+
+    session.endDialog();
 
     request.on('done', function (rowCount, more) {
         console.log(rowCount + ' rows returned');
