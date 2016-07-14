@@ -35,6 +35,9 @@ builder.Prompts.text(session, '（´<_｀ 　）');
 
         // コネクションの作成
         var Connection = require('tedious').Connection;
+        
+builder.Prompts.text(session, '(　´_ゝ`)');
+
         var config = {
             userName: 'socialadmin',
             password: 'ufeuQ7sPu2',
