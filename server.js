@@ -17,12 +17,14 @@ bot.add('/', new builder.CommandDialog()
 
 function showFuncMessage(session) {
   session.send('You called function!!');
+  session.endDialog();
 }
 
 // bot振り分け後の処理
 bot.add('/test', [
     function (session) {
         session.send('You said Test!!');
+        session.endDialog();
     },
 ]);
 
