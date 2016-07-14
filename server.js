@@ -24,6 +24,7 @@ function showFuncMessage(session) {
 bot.add('/test', [
     function (session) {
         session.send('You said Test!!');
+        session.send('What are you doing??');
         session.endDialog();
     },
 ]);
@@ -32,11 +33,11 @@ bot.add('/exile', [
      function (session) {
 
 //builder.Prompts.text(session, '（´<_｀ 　）');
-builder.Prompts.text(session, '(　´_ゝ`)');
+//builder.Prompts.text(session, '(　´_ゝ`)');
         // コネクションの作成
         var Connection = require('tedious').Connection;
 
-//builder.Prompts.text(session, 'aaaaa');
+builder.Prompts.text(session, 'aaaaa');
 
         var config = {
             userName: 'socialadmin',
@@ -52,7 +53,6 @@ builder.Prompts.text(session, '(　´_ゝ`)');
         connection.on('connect', function (err) {
             // If no error, then good to proceed. 
             //console.log("Connected");
-            builder.Prompts.text(session, 'connected!');
             executeStatement(session, connection);
         });
       },
