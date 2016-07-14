@@ -23,21 +23,15 @@ function showFuncMessage(session) {
 // bot振り分け後の処理
 bot.add('/test', [
     function (session) {
-        session.send('You said Test!!' + /[\n\r]/g + 'What are you doing??');
+        session.send('You said Test!!' + /[\n\r]/ + 'What are you doing??');
         session.endDialog();
     },
 ]);
 
 bot.add('/exile', [
      function (session) {
-
-//builder.Prompts.text(session, '（´<_｀ 　）');
-//builder.Prompts.text(session, '(　´_ゝ`)');
         // コネクションの作成
         var Connection = require('tedious').Connection;
-
-session.send('connect しない？');
-
         var config = {
             userName: 'socialadmin',
             password: 'ufeuQ7sPu2',
@@ -45,8 +39,6 @@ session.send('connect しない？');
             // Azure上のDBの場合は必須
             options: { encrypt: true, database: 'socialtestdb' }
         };
-
-        builder.Prompts.text(session, 'connection get!');
 
         var connection = new Connection(config);
         connection.on('connect', function (err) {
@@ -68,6 +60,9 @@ function executeStatement(session, connection) {
             console.log(err);
         }
     });
+
+session.send(request);
+
     var result = "";
     request.on('row', function (columns) {
         columns.forEach(function (column) {
