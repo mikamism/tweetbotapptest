@@ -30,6 +30,9 @@ bot.add('/test', [
 
 bot.add('/exile', [
      function (session) {
+
+builder.Prompts.text(session, '（´<_｀ 　）');
+
         // コネクションの作成
         var Connection = require('tedious').Connection;
         var config = {
