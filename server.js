@@ -31,12 +31,12 @@ bot.add('/test', [
 bot.add('/exile', [
      function (session) {
 
-builder.Prompts.text(session, '（´<_｀ 　）');
+//builder.Prompts.text(session, '（´<_｀ 　）');
 builder.Prompts.text(session, '(　´_ゝ`)');
         // コネクションの作成
         var Connection = require('tedious').Connection;
 
-builder.Prompts.text(session, 'aaaaa');
+//builder.Prompts.text(session, 'aaaaa');
 
         var config = {
             userName: 'socialadmin',
