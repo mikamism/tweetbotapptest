@@ -5,7 +5,7 @@ var bot = new builder.BotConnectorBot(
   { appId: 'sample-tweet-bot',
     appSecret: '642d202a2f6540958e913cacd739da3d' });
 
-bot.add('/', new builder.Dialog()
+bot.add('/', new builder.CommandDialog()
     // 大文字小文字でも正規表現でひとまとめとする
     .matches('^(exile|EXILE)', builder.DialogAction.beginDialog('/exile'))
     .matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
