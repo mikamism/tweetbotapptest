@@ -23,8 +23,7 @@ function showFuncMessage(session) {
 // bot振り分け後の処理
 bot.add('/test', [
     function (session) {
-        session.send('You said Test!!');
-        session.send('What are you doing??');
+        session.send('You said Test!!' + /[\n\r]/g + 'What are you doing??');
         session.endDialog();
     },
 ]);
@@ -37,7 +36,7 @@ bot.add('/exile', [
         // コネクションの作成
         var Connection = require('tedious').Connection;
 
-builder.Prompts.text(session, 'aaaaa');
+session.send('connect しない？');
 
         var config = {
             userName: 'socialadmin',
