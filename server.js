@@ -16,7 +16,7 @@ bot.add('/', new builder.CommandDialog()
     }));
 
 function showFuncMessage(session) {
-  session.send(tmp.join(', '));
+  session.send('You called function!!');
 }
 
 // bot振り分け後の処理
