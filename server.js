@@ -43,7 +43,8 @@ bot.add('/exile', [
         var connection = new Connection(config);
         connection.on('connect', function (err) {
             // If no error, then good to proceed. 
-            console.log("Connected");
+            //console.log("Connected");
+            builder.Prompts.text(session, 'connected!');
             executeStatement(session, connection);
         });
       },
