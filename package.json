@@ -12,6 +12,7 @@
     "botbuilder": "^1.0.1",
     "botkit": "^0.2.2",
     "express": "^4.14.0",
-    "restify": "^4.1.1"
+    "restify": "^4.1.1",
+    "tedious":"^1.14.0"
   }
 }
