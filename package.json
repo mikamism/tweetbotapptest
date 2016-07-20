@@ -1,7 +1,7 @@
 {
   "name": "botconnector-sample",
   "version": "1.0.0",
-  "description": "tweetbot test",
+  "description": "tweet bot",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "botbuilder": "^3.1.1",
+    "botbuilder": "^1.0.1",
     "botkit": "^0.2.2",
     "express": "^4.14.0",
     "restify": "^4.1.1",
