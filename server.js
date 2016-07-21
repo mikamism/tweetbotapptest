@@ -18,7 +18,7 @@ bot.add('/', new builder.CommandDialog()
     }));
 
 function showFuncMessage(session) {
-  session.send('あなたはファンクションを呼んだね。¥nうん、きっとそうだ');
+  session.send('あなたはファンクションを呼んだね。\r\nうん、きっとそうだ');
   //session.endDialog();
 }
 
@@ -26,7 +26,7 @@ function showFuncMessage(session) {
 bot.add('/test', [
     function (session) {
       var txt = 'You said Test!!' 
-              + '¥r¥nWhat are you doing??';
+              + '\r\nWhat are you doing??';
       session.send(txt);
       session.endDialog();
     },
