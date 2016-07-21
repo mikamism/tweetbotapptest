@@ -25,7 +25,7 @@ function showFuncMessage(session) {
 // bot振り分け後の処理
 bot.add('/test', [
     function (session) {
-        session.send('You said Test!!\r\nWhat are you doing??');
+        session.send('You said Test!!' + '\nWhat are you doing??');
         session.endDialog();
     },
 ]);
@@ -58,7 +58,7 @@ function executeStatement(session, connection) {
     var TYPES = require('tedious').TYPES;
 
     // クエリの作成
-    var request = new Request("SELECT a.username,MAX(a.follower) FROM dbo.TwitteruserFollowerList a WHERE a.username like 'EXILE%' GROUP BY a.username;", function (err) {
+    var request = new Request("SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a  WHERE a.username like 'EXILE%' GROUP BY a.username;", function (err) {
         if (err) {
             console.log(err);
         }
