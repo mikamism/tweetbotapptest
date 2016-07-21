@@ -26,7 +26,7 @@ function showFuncMessage(session) {
 bot.add('/test', [
     function (session) {
       var txt = 'You said Test!!' 
-              + '\nWhat are you doing??';
+              + 's/\\/\\n/gWhat are you doing??';
       session.send(txt);
       session.endDialog();
     },
