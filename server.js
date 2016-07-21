@@ -25,8 +25,10 @@ function showFuncMessage(session) {
 // bot振り分け後の処理
 bot.add('/test', [
     function (session) {
-        session.send('You said Test!!' + '\nWhat are you doing??');
-        session.endDialog();
+      var txt = 'You said Test!!' 
+              + '\nWhat are you doing??';
+      session.send(txt);
+      session.endDialog();
     },
 ]);
 
