@@ -18,7 +18,7 @@ bot.add('/', new builder.CommandDialog()
     }));
 
 function showFuncMessage(session) {
-  session.send('あなたはファンクションを呼んだね。\nうん、きっとそうだ');
+  session.send('あなたはファンクションを呼んだね。&#xD;&#xA;うん、きっとそうだ');
   //session.endDialog();
 }
 
