@@ -1,5 +1,7 @@
 var restify = require('restify');
 var builder = require('botbuilder');
+// コネクションの作成
+var Connection = require('tedious').Connection;
 
 var bot = new builder.BotConnectorBot(
   { appId: 'sample-tweet-bot',
@@ -17,7 +19,7 @@ bot.add('/', new builder.CommandDialog()
 
 function showFuncMessage(session) {
   session.send('You called function!!');
-  session.endDialog();
+  //session.endDialog();
 }
 
 // bot振り分け後の処理
@@ -30,8 +32,7 @@ bot.add('/test', [
 
 bot.add('/exile', [
      function (session) {
-        // コネクションの作成
-        var Connection = require('tedious').Connection;
+        
         var config = {
             userName: 'socialadmin',
             password: 'ufeuQ7sPu2',
@@ -46,6 +47,8 @@ bot.add('/exile', [
             //console.log("Connected");
             executeStatement(session, connection);
         });
+
+        session.endDialog();
       },
 
 ]);
@@ -61,7 +64,7 @@ function executeStatement(session, connection) {
         }
     });
 
-session.send(request);
+//session.send(request);
 
     var result = "";
     request.on('row', function (columns) {
@@ -77,8 +80,6 @@ session.send(request);
         session.send(result);
         result = "";
     });
-
-    session.endDialog();
 
     request.on('done', function (rowCount, more) {
         console.log(rowCount + ' rows returned');
