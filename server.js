@@ -10,6 +10,7 @@ var bot = new builder.BotConnectorBot(
 bot.add('/', new builder.CommandDialog()
     // 大文字小文字でも正規表現でひとまとめとする
     .matches('^(exile|EXILE)', builder.DialogAction.beginDialog('/exile'))
+    .matches('^(aaa|AAA|とりえ|トリエ|トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
     .matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
     .matches('^func', showFuncMessage)
     .onDefault(function (session) {
@@ -55,12 +56,35 @@ bot.add('/exile', [
 
 ]);
 
+bot.add('/aaa', [
+     function (session) {
+        
+        var config = {
+            userName: 'socialadmin',
+            password: 'ufeuQ7sPu2',
+            server: 'socialtestdb.database.windows.net',
+            // Azure上のDBの場合は必須
+            options: { encrypt: true, database: 'socialtestdb' }
+        };
+
+        var connection = new Connection(config);
+        connection.on('connect', function (err) {
+            // If no error, then good to proceed. 
+            //console.log("Connected");
+            executeStatement(session, connection, 'AAA');
+        });
+
+        session.endDialog();
+      },
+
+]);
+
 function executeStatement(session, connection, aname) {
     var Request = require('tedious').Request;
     var TYPES = require('tedious').TYPES;
 
     // クエリの作成
-    var request = new Request("SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a  WHERE a.username like '" + aname +"%' GROUP BY a.username;", function (err) {
+    var request = new Request("SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a  WHERE a.username like '%" + aname +"%' GROUP BY a.username;", function (err) {
         if (err) {
             console.log(err);
         }
