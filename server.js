@@ -47,7 +47,7 @@ bot.add('/exile', [
         connection.on('connect', function (err) {
             // If no error, then good to proceed. 
             //console.log("Connected");
-            executeStatement(session, connection);
+            executeStatement(session, connection, 'EXILE');
         });
 
         session.endDialog();
@@ -55,12 +55,12 @@ bot.add('/exile', [
 
 ]);
 
-function executeStatement(session, connection) {
+function executeStatement(session, connection, aname) {
     var Request = require('tedious').Request;
     var TYPES = require('tedious').TYPES;
 
     // クエリの作成
-    var request = new Request("SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a  WHERE a.username like 'EXILE%' GROUP BY a.username;", function (err) {
+    var request = new Request("SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a  WHERE a.username like '" + aname +"%' GROUP BY a.username;", function (err) {
         if (err) {
             console.log(err);
         }
