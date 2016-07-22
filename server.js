@@ -1,29 +1,43 @@
+/*
+ 処理概要：アーティスト名を受け取るとそのフォロワー数を返す
+ 作成日：2016/7/22
+ 作成者：mikamism
+*/
+
 var restify = require('restify');
 var builder = require('botbuilder');
 // コネクションの作成
 var Connection = require('tedious').Connection;
 
+// Azure上のbotを設定
 var bot = new builder.BotConnectorBot(
   { appId: 'sample-tweet-bot',
     appSecret: '642d202a2f6540958e913cacd739da3d' });
 
 bot.add('/', new builder.CommandDialog()
     // 大文字小文字でも正規表現でひとまとめとする
-    .matches('^(exile|EXILE)', builder.DialogAction.beginDialog('/exile'))
+    .matches('^(exile|EXILE|エグザイル|えぐざいる)', builder.DialogAction.beginDialog('/exile'))
     .matches('^(aaa|AAA|とりえ|トリエ|トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
     .matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
+    .matches('^(syam|hi)', showFuncHi)
     .matches('^func', showFuncMessage)
     .onDefault(function (session) {
         var msg = 'This is a test for TweetBot of SQLServer!!';
         session.send('Hello, I am Test bot! ' + msg);
     }));
 
+// ToDo 改行テストで使用
 function showFuncMessage(session) {
   session.send('あなたはファンクションを呼んだね。%0D%0Aうん、きっとそうだ');
   //session.endDialog();
 }
 
-// bot振り分け後の処理
+// ToDo 改行テストで使用
+function showFuncHi(session) {
+  session.send('っはい、山田です。');
+}
+
+// ToDo 改行テストで使用
 bot.add('/test', [
     function (session) {
       var txt = 'You said Test!!' 
@@ -33,6 +47,7 @@ bot.add('/test', [
     },
 ]);
 
+// EXILEの場合
 bot.add('/exile', [
      function (session) {
         
@@ -56,6 +71,7 @@ bot.add('/exile', [
 
 ]);
 
+// AAAの場合
 bot.add('/aaa', [
      function (session) {
         
@@ -79,6 +95,7 @@ bot.add('/aaa', [
 
 ]);
 
+// SQL Serverへ接続
 function executeStatement(session, connection, aname) {
     var Request = require('tedious').Request;
     var TYPES = require('tedious').TYPES;
@@ -90,8 +107,6 @@ function executeStatement(session, connection, aname) {
         }
     });
 
-//session.send(request);
-
     var result = "";
     request.on('row', function (columns) {
         columns.forEach(function (column) {
@@ -101,8 +116,7 @@ function executeStatement(session, connection, aname) {
                 result += column.value + " ";
             }
         });
-        //console.log(result);
-        //builder.Prompts.text(session, result);
+        // ToDo 改行でなんとかしたい
         session.send(result);
         result = "";
     });
@@ -111,7 +125,6 @@ function executeStatement(session, connection, aname) {
         console.log(rowCount + ' rows returned');
     });
     connection.execSql(request);
-    //builder.Prompts.text(session, result);
 }
 
 var server = restify.createServer();
