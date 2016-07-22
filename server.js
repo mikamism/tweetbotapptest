@@ -12,7 +12,8 @@ var Connection = require('tedious').Connection;
 // Azure上のbotを設定
 var bot = new builder.BotConnectorBot({
   appId: 'sample-tweet-bot',
-  appSecret: '642d202a2f6540958e913cacd739da3d' });
+  appSecret: '642d202a2f6540958e913cacd739da3d'
+});
 
 bot.add('/', new builder.CommandDialog()
   // 大文字小文字でも正規表現でひとまとめとする
@@ -28,14 +29,15 @@ bot.add('/', new builder.CommandDialog()
 
 // ToDo 改行テストで使用
 function showFuncMessage(session) {
-  session.send('あなたはファンクションを呼んだね。' + '\n' + 'うん、きっとそうだ');
+  var usertext = session.userData.name;
+  session.send('あなたはファンクションを呼んだね。' + '\n' + 'うん、きっとそうだ' + usertext);
 }
 
 // ToDo 改行テストで使用
 bot.add('/test', [
   function (session) {
     var txt = 'You said Test!!' 
-            + '\nWhat are you doing??';
+            + '\n' + 'What are you doing??';
     session.send(txt);
     session.endDialog();
   },
@@ -130,6 +132,7 @@ function executeStatement(session, connection, aname) {
   connection.execSql(request);
 }
 
+// severセットアップ
 var server = restify.createServer();
 server.post('/api/messages', bot.verifyBotFramework(), bot.listen());
 server.listen(process.env.port || 3978, function () {
