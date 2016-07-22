@@ -10,121 +10,124 @@ var builder = require('botbuilder');
 var Connection = require('tedious').Connection;
 
 // Azure上のbotを設定
-var bot = new builder.BotConnectorBot(
-  { appId: 'sample-tweet-bot',
-    appSecret: '642d202a2f6540958e913cacd739da3d' });
+var bot = new builder.BotConnectorBot({
+  appId: 'sample-tweet-bot',
+  appSecret: '642d202a2f6540958e913cacd739da3d' });
 
 bot.add('/', new builder.CommandDialog()
-    // 大文字小文字でも正規表現でひとまとめとする
-    .matches('^(exile|EXILE|エグザイル|えぐざいる)', builder.DialogAction.beginDialog('/exile'))
-    .matches('^(aaa|AAA|とりえ|トリエ|トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
-    .matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
-    .matches('^(syam|hi)', showFuncHi)
-    .matches('^func', showFuncMessage)
-    .onDefault(function (session) {
-        var msg = 'This is a test for TweetBot of SQLServer!!';
-        session.send('Hello, I am Test bot! ' + msg);
-    }));
+  // 大文字小文字でも正規表現でひとまとめとする
+  .matches('^(exile|EXILE|エグザイル|えぐざいる)', builder.DialogAction.beginDialog('/exile'))
+  .matches('^(aaa|AAA|とりえ|トリエ|トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
+  .matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
+  .matches('^func', showFuncMessage)
+  .onDefault(function (session) {
+    var msg = 'This is a test for TweetBot of SQLServer!!';
+    session.send('Hello, I am Test bot! ' + msg);
+  })
+);
 
 // ToDo 改行テストで使用
 function showFuncMessage(session) {
-  session.send('あなたはファンクションを呼んだね。%0D%0Aうん、きっとそうだ');
-  //session.endDialog();
-}
-
-// ToDo 改行テストで使用
-function showFuncHi(session) {
-  session.send('っはい、山田です。');
+  session.send('あなたはファンクションを呼んだね。' + '\n' + 'うん、きっとそうだ');
 }
 
 // ToDo 改行テストで使用
 bot.add('/test', [
-    function (session) {
-      var txt = 'You said Test!!' 
-              + '\nWhat are you doing??';
-      session.send(txt);
-      session.endDialog();
-    },
+  function (session) {
+    var txt = 'You said Test!!' 
+            + '\nWhat are you doing??';
+    session.send(txt);
+    session.endDialog();
+  },
 ]);
 
 // EXILEの場合
 bot.add('/exile', [
-     function (session) {
-        
-        var config = {
-            userName: 'socialadmin',
-            password: 'ufeuQ7sPu2',
-            server: 'socialtestdb.database.windows.net',
-            // Azure上のDBの場合は必須
-            options: { encrypt: true, database: 'socialtestdb' }
-        };
+  function (session) {
 
-        var connection = new Connection(config);
-        connection.on('connect', function (err) {
-            // If no error, then good to proceed. 
-            //console.log("Connected");
-            executeStatement(session, connection, 'EXILE');
-        });
+    // 接続情報の設定    
+    var config = {
+      userName: 'socialadmin',
+      password: 'ufeuQ7sPu2',
+      server: 'socialtestdb.database.windows.net',
+      // Azure上のDBの場合は必須
+      options: { encrypt: true, database: 'socialtestdb' }
+    };
 
-        session.endDialog();
-      },
+    // コネクションの作成
+    var connection = new Connection(config);
 
+    // DB接続
+    connection.on('connect', function (err) {
+      // データ取得
+      executeStatement(session, connection, 'EXILE');
+    });
+    // sessionを閉じる
+    session.endDialog();
+  },
 ]);
 
 // AAAの場合
 bot.add('/aaa', [
-     function (session) {
+  function (session) {
         
-        var config = {
-            userName: 'socialadmin',
-            password: 'ufeuQ7sPu2',
-            server: 'socialtestdb.database.windows.net',
-            // Azure上のDBの場合は必須
-            options: { encrypt: true, database: 'socialtestdb' }
-        };
+    // 接続情報の設定 
+    var config = {
+      userName: 'socialadmin',
+      password: 'ufeuQ7sPu2',
+      server: 'socialtestdb.database.windows.net',
+      // Azure上のDBの場合は必須
+      options: { encrypt: true, database: 'socialtestdb' }
+    };
 
-        var connection = new Connection(config);
-        connection.on('connect', function (err) {
-            // If no error, then good to proceed. 
-            //console.log("Connected");
-            executeStatement(session, connection, 'AAA');
-        });
+    // コネクションの作成
+    var connection = new Connection(config);
 
-        session.endDialog();
-      },
-
+    // DB接続
+    connection.on('connect', function (err) {
+      // データ取得
+      executeStatement(session, connection, 'AAA');
+    });
+    // sessionを閉じる
+    session.endDialog();
+  },
 ]);
 
 // SQL Serverへ接続
 function executeStatement(session, connection, aname) {
-    var Request = require('tedious').Request;
-    var TYPES = require('tedious').TYPES;
+  var Request = require('tedious').Request;
+  var TYPES = require('tedious').TYPES;
 
-    // クエリの作成
-    var request = new Request("SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a  WHERE a.username like '%" + aname +"%' GROUP BY a.username;", function (err) {
-        if (err) {
-            console.log(err);
-        }
-    });
+  // クエリの作成
+  var request = new Request("SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a  WHERE a.username like '%" + aname +"%' GROUP BY a.username;", function (err) {
+    if (err) {
+      session.send('クエリ作成時にエラーが発生しました。管理者へお問い合わせください。');
+      console.log(err);
+    }
+  });
 
-    var result = "";
-    request.on('row', function (columns) {
-        columns.forEach(function (column) {
-            if (column.value === null) {
-                console.log('NULL');
-            } else {
-                result += column.value + " ";
-            }
-        });
-        // ToDo 改行でなんとかしたい
-        session.send(result);
-        result = "";
-    });
+  // 結果を宣言し初期化
+  var result = "";
 
-    request.on('done', function (rowCount, more) {
-        console.log(rowCount + ' rows returned');
+  // クエリを実行し値を取得
+  request.on('row', function (columns) {
+    // 取得した件数分ループ
+    columns.forEach(function (column) {
+      if (column.value === null) {
+        console.log('NULL');
+      } else {
+        result += column.value + " ";
+      }
     });
-    connection.execSql(request);
+    // ToDo 改行でなんとかしたい
+    session.send(result);
+    result = "";
+  });
+
+  request.on('done', function (rowCount, more) {
+    console.log(rowCount + ' rows returned');
+  });
+  connection.execSql(request);
 }
 
 var server = restify.createServer();
