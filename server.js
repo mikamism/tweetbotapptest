@@ -31,7 +31,7 @@ bot.add('/', new builder.CommandDialog()
 
 // ToDo 改行テストで使用
 function showFuncMessage(session) {
-  session.send('あなたはファンクションを呼んだね。' + '\t' + 'うん、きっとそうだ');
+  session.send('あなたはファンクションを呼んだね。' + '\033[0G' + 'うん、きっとそうだ');
 }
 
 // ToDo 改行テストで使用
