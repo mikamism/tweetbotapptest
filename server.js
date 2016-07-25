@@ -29,7 +29,7 @@ bot.add('/', new builder.CommandDialog()
 
 // ToDo 改行テストで使用
 function showFuncMessage(session) {
-  var usertext = session.userData.name;
+  var usertext = session.message.text;
   session.send('あなたはファンクションを呼んだね。' + '\n' + 'うん、きっとそうだ' + usertext);
 }
 
