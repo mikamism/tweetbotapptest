@@ -22,15 +22,16 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
   .matches('^func', showFuncMessage)
   .onDefault(function (session) {
-    var msg = 'This is a test for TweetBot of SQLServer!!';
-    session.send('Hello, I am Test bot! ' + msg);
+    //var msg = 'This is a test for TweetBot of SQLServer!!';
+    var usertext = session.message.text;
+    //session.send('Hello, I am Test bot! ' + msg);
+    session.send('You said ' + usertext);
   })
 );
 
 // ToDo 改行テストで使用
 function showFuncMessage(session) {
-  var usertext = session.message.text;
-  session.send('あなたはファンクションを呼んだね。' + '\n' + 'うん、きっとそうだ' + usertext);
+  session.send('あなたはファンクションを呼んだね。' + '\n' + 'うん、きっとそうだ');
 }
 
 // ToDo 改行テストで使用
