@@ -25,7 +25,7 @@ bot.add('/', new builder.CommandDialog()
     //var msg = 'This is a test for TweetBot of SQLServer!!';
     var usertext = session.message.text;
     //session.send('Hello, I am Test bot! ' + msg);
-    session.send('You said \\n' + usertext);
+    session.send('You said /\n/g' + usertext);
   })
 );
 
