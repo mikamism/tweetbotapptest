@@ -15,6 +15,15 @@ var bot = new builder.BotConnectorBot({
   appSecret: '642d202a2f6540958e913cacd739da3d'
 });
 
+    // 接続情報の設定    
+    var config = {
+      userName: 'socialadmin',
+      password: 'ufeuQ7sPu2',
+      server: 'socialtestdb.database.windows.net',
+      // Azure上のDBの場合は必須
+      options: { encrypt: true, database: 'socialtestdb' }
+    };
+
 bot.add('/', new builder.CommandDialog()
   // 大文字小文字でも正規表現でひとまとめとする
   .matches('^(exile|EXILE|エグザイル|えぐざいる)', builder.DialogAction.beginDialog('/exile'))
@@ -24,9 +33,9 @@ bot.add('/', new builder.CommandDialog()
   .onDefault(function (session) {
     //var msg = 'This is a test for TweetBot of SQLServer!!';
     var usertext = session.message.text;
-    builder.Prompts.text(session, usertext);
+    //builder.Prompts.text(session, usertext);
     //session.send('Hello, I am Test bot! ' + msg);
-    session.send('You said /\n/g' + usertext);
+    session.send('You said \n' + usertext);
   })
 );
 
@@ -49,14 +58,7 @@ bot.add('/test', [
 bot.add('/exile', [
   function (session) {
 
-    // 接続情報の設定    
-    var config = {
-      userName: 'socialadmin',
-      password: 'ufeuQ7sPu2',
-      server: 'socialtestdb.database.windows.net',
-      // Azure上のDBの場合は必須
-      options: { encrypt: true, database: 'socialtestdb' }
-    };
+
 
     // コネクションの作成
     var connection = new Connection(config);
@@ -75,14 +77,7 @@ bot.add('/exile', [
 bot.add('/aaa', [
   function (session) {
         
-    // 接続情報の設定 
-    var config = {
-      userName: 'socialadmin',
-      password: 'ufeuQ7sPu2',
-      server: 'socialtestdb.database.windows.net',
-      // Azure上のDBの場合は必須
-      options: { encrypt: true, database: 'socialtestdb' }
-    };
+
 
     // コネクションの作成
     var connection = new Connection(config);
