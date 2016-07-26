@@ -25,13 +25,13 @@ bot.add('/', new builder.CommandDialog()
     //var msg = 'This is a test for TweetBot of SQLServer!!';
     var usertext = session.message.text;
     //session.send('Hello, I am Test bot! ' + msg);
-    session.send('You said \r\n\t' + usertext);
+    session.send('You said \\n' + usertext);
   })
 );
 
 // ToDo 改行テストで使用
 function showFuncMessage(session) {
-  session.send('あなたはファンクションを呼んだね。' + '\033[0G' + 'うん、きっとそうだ');
+  session.send('あなたはファンクションを呼んだね。' + '\n' + 'うん、きっとそうだ');
 }
 
 // ToDo 改行テストで使用
