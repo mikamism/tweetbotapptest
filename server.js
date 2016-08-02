@@ -29,7 +29,7 @@ bot.add('/', new builder.CommandDialog()
   // 大文字小文字でも正規表現でひとまとめとする
   .matches('^(exile|EXILE|エグザイル|えぐざいる)', builder.DialogAction.beginDialog('/exile'))
   .matches('^(aaa|AAA|とりえ|トリエ|トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
-  .matches('^(ヤフー|Yahoo|yahoo|やふー)', builder.DialogAction.beginDialog('/yahoo'))
+  .matches('^(ヤフー|Yahoo|yahoo|やふー|やほー|ヤホー)', builder.DialogAction.beginDialog('/yahoo'))
   //.matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
   //.matches('^func', showFuncMessage)
   .onDefault(function (session) {
