@@ -96,7 +96,7 @@ bot.add('/yahoo', [
     var connection = new Connection(config);
     // DB接続
     connection.on('connect', function (err) {
-      var sql = "SELECT a.rank , '： ' + a.word FROM dbo.YahooRTBurstRank a WHERE a.created_at = (SELECT MAX(b.created_at) FROM dbo.YahooRTBurstRank b) ORDER BY a.rank;"
+      var sql = "SELECT a.rank , '： ' + a.word FROM dbo.YahooRTBurstRank a WHERE a.created_at = (SELECT MAX(b.created_at) FROM dbo.YahooRTBurstRank b) GROUP BY a.rank, a.word ORDER BY a.rank;"
       // データ取得
       executeStatement(session, connection, sql);
     });
