@@ -15,27 +15,28 @@ var bot = new builder.BotConnectorBot({
   appSecret: '642d202a2f6540958e913cacd739da3d'
 });
 
-    // 接続情報の設定    
-    var config = {
-      userName: 'socialadmin',
-      password: 'ufeuQ7sPu2',
-      server: 'socialtestdb.database.windows.net',
-      // Azure上のDBの場合は必須
-      options: { encrypt: true, database: 'socialtestdb' }
-    };
+// DB接続情報の設定
+var config = {
+  userName: 'socialadmin',
+  password: 'ufeuQ7sPu2',
+  server: 'socialtestdb.database.windows.net',
+  // Azure上のDBの場合は必須
+  options: { encrypt: true, database: 'socialtestdb' }
+};
 
+// 処理の振り分け
 bot.add('/', new builder.CommandDialog()
   // 大文字小文字でも正規表現でひとまとめとする
   .matches('^(exile|EXILE|エグザイル|えぐざいる)', builder.DialogAction.beginDialog('/exile'))
   .matches('^(aaa|AAA|とりえ|トリエ|トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
-  .matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
-  .matches('^func', showFuncMessage)
+  //.matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
+  //.matches('^func', showFuncMessage)
   .onDefault(function (session) {
     //var msg = 'This is a test for TweetBot of SQLServer!!';
-    var usertext = session.message.text;
+    //var usertext = session.message.text;
     //builder.Prompts.text(session, usertext);
     //session.send('Hello, I am Test bot! ' + msg);
-    session.send('You said \n' + usertext);
+    //session.send('You said \n' + usertext);
   })
 );
 
@@ -57,16 +58,14 @@ bot.add('/test', [
 // EXILEの場合
 bot.add('/exile', [
   function (session) {
-
-
-
     // コネクションの作成
     var connection = new Connection(config);
-
     // DB接続
     connection.on('connect', function (err) {
+      // SQLを生成
+      var sql = "SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a WHERE a.username IN ('USA_from EXILE',N'黒木 啓司','EXILE TETSUYA/E.P.I.','EXILE SHOKICHI','EXILE NAOTO',N'岩田 剛典') GROUP BY a.username;"
       // データ取得
-      executeStatement(session, connection, 'EXILE');
+      executeStatement(session, connection, sql);
     });
     // sessionを閉じる
     session.endDialog();
@@ -76,16 +75,13 @@ bot.add('/exile', [
 // AAAの場合
 bot.add('/aaa', [
   function (session) {
-        
-
-
     // コネクションの作成
     var connection = new Connection(config);
-
     // DB接続
     connection.on('connect', function (err) {
+      var sql = "SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a WHERE a.username LIKE ('%AAA%') GROUP BY a.username;"
       // データ取得
-      executeStatement(session, connection, 'AAA');
+      executeStatement(session, connection, sql);
     });
     // sessionを閉じる
     session.endDialog();
@@ -93,12 +89,12 @@ bot.add('/aaa', [
 ]);
 
 // SQL Serverへ接続
-function executeStatement(session, connection, aname) {
+function executeStatement(session, connection, sql) {
   var Request = require('tedious').Request;
   var TYPES = require('tedious').TYPES;
 
   // クエリの作成
-  var request = new Request("SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a  WHERE a.username like '%" + aname +"%' GROUP BY a.username;", function (err) {
+  var request = new Request(sql, function (err) {
     if (err) {
       session.send('クエリ作成時にエラーが発生しました。管理者へお問い合わせください。');
       console.log(err);
