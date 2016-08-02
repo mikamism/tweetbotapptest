@@ -29,6 +29,7 @@ bot.add('/', new builder.CommandDialog()
   // 大文字小文字でも正規表現でひとまとめとする
   .matches('^(exile|EXILE|エグザイル|えぐざいる)', builder.DialogAction.beginDialog('/exile'))
   .matches('^(aaa|AAA|とりえ|トリエ|トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
+  .matches('^(ヤフー|Yahoo|yahoo|やふー)', builder.DialogAction.beginDialog('/yahoo'))
   //.matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
   //.matches('^func', showFuncMessage)
   .onDefault(function (session) {
@@ -80,6 +81,22 @@ bot.add('/aaa', [
     // DB接続
     connection.on('connect', function (err) {
       var sql = "SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a WHERE a.username LIKE ('%AAA%') GROUP BY a.username;"
+      // データ取得
+      executeStatement(session, connection, sql);
+    });
+    // sessionを閉じる
+    session.endDialog();
+  },
+]);
+
+// Yahooの場合
+bot.add('/yahoo', [
+  function (session) {
+    // コネクションの作成
+    var connection = new Connection(config);
+    // DB接続
+    connection.on('connect', function (err) {
+      var sql = "SELECT a.rank , '： ' + a.word FROM dbo.YahooRTBurstRank a WHERE a.created_at = (SELECT MAX(b.created_at) FROM dbo.YahooRTBurstRank b) ORDER BY a.rank;"
       // データ取得
       executeStatement(session, connection, sql);
     });
