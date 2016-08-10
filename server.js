@@ -128,14 +128,15 @@ function executeStatement(session, connection, sql) {
       if (column.value === null) {
         console.log('NULL');
       } else {
-        //result += ">" + column.value + " ";
-        result += ">" + column.value;
+        result += column.value + " ";
       }
     });
     // ToDo 改行でなんとかしたい
-    session.send(result);
-    result = "";
+    //session.send(result);
+    //result = "";
   });
+
+  session.send(result);
 
   request.on('done', function (rowCount, more) {
     console.log(rowCount + ' rows returned');
