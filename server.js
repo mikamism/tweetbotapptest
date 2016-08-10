@@ -128,7 +128,8 @@ function executeStatement(session, connection, sql) {
       if (column.value === null) {
         console.log('NULL');
       } else {
-        result += ">" + column.value + " ";
+        //result += ">" + column.value + " ";
+        result += ">" + column.value;
       }
     });
     // ToDo 改行でなんとかしたい
