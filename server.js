@@ -49,8 +49,7 @@ function showFuncMessage(session) {
 // ToDo 改行テストで使用
 bot.add('/test', [
   function (session) {
-    var txt = 'You said Test!!' 
-            + '\n\n' + 'What are you doing??';
+    var txt = 'You said Test!!\n\nWhat are you doing??';
     session.send(txt);
     session.endDialog();
   },
@@ -132,15 +131,14 @@ function executeStatement(session, connection, sql) {
       }
     });
     // ToDo 改行でなんとかしたい
-    session.send(result);
-    result = "";
-    //result += '\n\n';
+    //session.send(result);
+    //result = "";
+    result += '\n\n';
   });
 
   request.on('done', function (rowCount, more) {
     console.log(rowCount + ' rows returned');
-
-    //session.send(result);
+    session.send(result);
   });
   connection.execSql(request);
 }
