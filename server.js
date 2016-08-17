@@ -30,7 +30,7 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(exile|EXILE|エグザイル|えぐざいる)', builder.DialogAction.beginDialog('/exile'))
   .matches('^(aaa|AAA|とりえ|トリエ|トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
   .matches('^(ヤフー|Yahoo|yahoo|やふー|やほー|ヤホー)', builder.DialogAction.beginDialog('/yahoo'))
-  //.matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
+  .matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
   //.matches('^func', showFuncMessage)
   .onDefault(function (session) {
     //var msg = 'This is a test for TweetBot of SQLServer!!';
@@ -134,7 +134,7 @@ function executeStatement(session, connection, sql) {
     // ToDo 改行でなんとかしたい
     //session.send(result);
     //result = "";
-    result += '\n\n'
+    result += '\n\n';
 
 
   });
