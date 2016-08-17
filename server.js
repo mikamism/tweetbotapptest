@@ -133,12 +133,13 @@ function executeStatement(session, connection, sql) {
     // ToDo 改行でなんとかしたい
     //session.send(result);
     //result = "";
-    result += '\n\n';
+    result += "\n\n";
   });
 
   request.on('done', function (rowCount, more) {
     console.log(rowCount + ' rows returned');
     session.send(result);
+    session.send("表示される？");
   });
   connection.execSql(request);
 }
