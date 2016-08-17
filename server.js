@@ -30,8 +30,8 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(exile|EXILE|エグザイル|えぐざいる)', builder.DialogAction.beginDialog('/exile'))
   .matches('^(aaa|AAA|とりえ|トリエ|トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
   .matches('^(ヤフー|Yahoo|yahoo|やふー|やほー|ヤホー)', builder.DialogAction.beginDialog('/yahoo'))
-  .matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
-  .matches('^func', showFuncMessage)
+  //.matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
+  //.matches('^func', showFuncMessage)
   .onDefault(function (session) {
     //var msg = 'This is a test for TweetBot of SQLServer!!';
     //var usertext = session.message.text;
@@ -120,7 +120,7 @@ function executeStatement(session, connection, sql) {
   // 結果を宣言し初期化
   var result = "";
 
-  // クエリを実行し値を取得
+  // 行を取得する度に呼ばれる
   request.on('row', function (columns) {
     // 取得した件数分ループ
     columns.forEach(function (column) {
@@ -130,26 +130,15 @@ function executeStatement(session, connection, sql) {
         result += column.value + " ";
       }
     });
-    // ToDo 改行でなんとかしたい
-    //session.send(result);
-    //result = "";
+    // 改行をセット
     result += "\n\n";
   });
 
-
+  // 最後に呼ばれる
   request.on('doneProc', function (rowCount, more) {
     console.log(rowCount + ' rows returned');
     session.send(result);
-    session.send('表示される？');
   });
-
-/*
-  request.on('done', function (returnValue) {
-    console.log(rowCount + ' rows returned');
-    session.send(result);
-    session.send('表示される？');
-  });
-    */
 
   // SQLを実行する
   connection.execSql(request);
