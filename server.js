@@ -135,14 +135,16 @@ function executeStatement(session, connection, sql) {
     //session.send(result);
     //result = "";
     result += '\n\n'
+
+
   });
 
   request.on('done', function (rowCount, more) {
     console.log(rowCount + ' rows returned');
+
+    session.send(result);
   });
   connection.execSql(request);
-
-  session.send(result);
 }
 
 // severセットアップ
