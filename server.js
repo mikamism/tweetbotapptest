@@ -132,17 +132,15 @@ function executeStatement(session, connection, sql) {
       }
     });
     // ToDo 改行でなんとかしたい
-    //session.send(result);
-    //result = "";
-    result += '\n\n';
-
-
+    session.send(result);
+    result = "";
+    //result += '\n\n';
   });
 
   request.on('done', function (rowCount, more) {
     console.log(rowCount + ' rows returned');
 
-    session.send(result);
+    //session.send(result);
   });
   connection.execSql(request);
 }
