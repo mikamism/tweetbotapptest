@@ -30,8 +30,8 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(exile|EXILE|エグザイル|えぐざいる)', builder.DialogAction.beginDialog('/exile'))
   .matches('^(aaa|AAA|とりえ|トリエ|トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
   .matches('^(ヤフー|Yahoo|yahoo|やふー|やほー|ヤホー)', builder.DialogAction.beginDialog('/yahoo'))
-  //.matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
-  //.matches('^func', showFuncMessage)
+  .matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
+  .matches('^func', showFuncMessage)
   .onDefault(function (session) {
     //var msg = 'This is a test for TweetBot of SQLServer!!';
     //var usertext = session.message.text;
@@ -43,14 +43,14 @@ bot.add('/', new builder.CommandDialog()
 
 // ToDo 改行テストで使用
 function showFuncMessage(session) {
-  session.send('あなたはファンクションを呼んだね。' + '\n' + 'うん、きっとそうだ');
+  session.send('あなたはファンクションを呼んだね。' + '¥n¥n' + 'うん、きっとそうだ');
 }
 
 // ToDo 改行テストで使用
 bot.add('/test', [
   function (session) {
     var txt = 'You said Test!!' 
-            + '\n' + 'What are you doing??';
+            + '\n\n' + 'What are you doing??';
     session.send(txt);
     session.endDialog();
   },
