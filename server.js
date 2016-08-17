@@ -136,19 +136,20 @@ function executeStatement(session, connection, sql) {
     result += "\n\n";
   });
 
-/*
-  request.on('done', function (rowCount, more) {
+
+  request.on('doneProc', function (rowCount, more) {
     console.log(rowCount + ' rows returned');
-    //session.send(result);
+    session.send(result);
     session.send('表示される？');
   });
-  */
 
+/*
   request.on('done', function (returnValue) {
     console.log(rowCount + ' rows returned');
     session.send(result);
     session.send('表示される？');
   });
+    */
 
   // SQLを実行する
   connection.execSql(request);
