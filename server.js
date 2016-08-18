@@ -31,6 +31,8 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(Reminder: aaa|Reminder: AAA|Reminder: とりえ|Reminder: トリエ|Reminder: トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
   .matches('^(Reminder: ヤフー|Reminder: Yahoo|Reminder: yahoo|Reminder: やふー|Reminder: やほー|Reminder: ヤホー)', builder.DialogAction.beginDialog('/yahoo'))
   .matches('^(Reminder: 1 hour yahoo)', builder.DialogAction.beginDialog('/yahoo1hour'))
+  .matches('^(Reminder: twitter)', builder.DialogAction.beginDialog('/twittertrend'))
+  .matches('^(Reminder: 1 hour twitter)', builder.DialogAction.beginDialog('/twittertrend1hour'))
   //.matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
   //.matches('^func', showFuncMessage)
   .onDefault(function (session) {
@@ -113,6 +115,50 @@ bot.add('/yahoo1hour', [
     // DB接続
     connection.on('connect', function (err) {
       var sql = "SELECT TOP 20 CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row ,dbo.funcExistYahooSurgeMasterHour(a.word) newflg FROM dbo.T_YahooSurgeWordsHour a WHERE a.timeSum >= DATEADD(hour, -1, getdate()) GROUP BY a.word ORDER BY SUM(a.score) DESC;"
+      // データ取得
+      executeStatement(session, connection, sql);
+    });
+    // sessionを閉じる
+    session.endDialog();
+  },
+]);
+
+// Twitterトレンドの場合
+bot.add('/twittertrend', [
+  function (session) {
+    // コネクションの作成
+    var connection = new Connection(config);
+    // DB接続
+    connection.on('connect', function (err) {
+      var sql = "SELECT TOP 20 "
+                + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
+                + ",dbo.funcExistTwitterTrendMaster(a.word) newflg "
+                + "FROM dbo.T_TwitterTrendWordsHour a "
+                + "WHERE a.timeSum >= DATEADD(hour, -8, getdate()) "
+                + "GROUP BY a.word "
+                + "ORDER BY SUM(a.score) DESC;"
+      // データ取得
+      executeStatement(session, connection, sql);
+    });
+    // sessionを閉じる
+    session.endDialog();
+  },
+]);
+
+// 1 hour Twitterの場合
+bot.add('/twittertrend1hour', [
+  function (session) {
+    // コネクションの作成
+    var connection = new Connection(config);
+    // DB接続
+    connection.on('connect', function (err) {
+            var sql = "SELECT TOP 20 "
+                + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
+                + ",dbo.funcExistTwitterTrendMasterHour(a.word) newflg "
+                + "FROM dbo.T_TwitterTrendWordsHour a "
+                + "WHERE a.timeSum >= DATEADD(hour, -1, getdate()) "
+                + "GROUP BY a.word "
+                + "ORDER BY SUM(a.score) DESC;"
       // データ取得
       executeStatement(session, connection, sql);
     });
