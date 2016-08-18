@@ -30,7 +30,7 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(Reminder: exile|Reminder: EXILE|Reminder: エグザイル|Reminder: えぐざいる)', builder.DialogAction.beginDialog('/exile'))
   .matches('^(Reminder: aaa|Reminder: AAA|Reminder: とりえ|Reminder: トリエ|Reminder: トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
   .matches('^(Reminder: ヤフー|Reminder: Yahoo|Reminder: yahoo|Reminder: やふー|Reminder: やほー|Reminder: ヤホー)', builder.DialogAction.beginDialog('/yahoo'))
-  .matches('^(Reminder: yahoo 1 hour)', builder.DialogAction.beginDialog('/yahoo1hour'))
+  .matches('^(Reminder: 1 hour yahoo)', builder.DialogAction.beginDialog('/yahoo1hour'))
   //.matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
   //.matches('^func', showFuncMessage)
   .onDefault(function (session) {
