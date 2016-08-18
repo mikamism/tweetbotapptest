@@ -106,8 +106,8 @@ bot.add('/yahoo', [
     // DB接続
     connection.on('connect', function (err) {
       var sql = "SELECT TOP 20 "
-                + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row , "
-                + "dbo.funcExistYahooSurgeMaster(a.word) newflg "
+                + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
+                + ",dbo.funcExistYahooSurgeMaster(a.word) newflg "
                 + "FROM dbo.T_YahooSurgeWordsHour a "
                 + "WHERE a.timeSum >= DATEADD(hour, -8, dbo.Now()) "
                 + "GROUP BY a.word "
@@ -171,7 +171,7 @@ bot.add('/twittertrend1hour', [
     var connection = new Connection(config);
     // DB接続
     connection.on('connect', function (err) {
-            var sql = "SELECT TOP 20 "
+      var sql = "SELECT TOP 20 "
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
                 + ",dbo.funcExistTwitterTrendMasterHour(a.word) newflg "
                 + "FROM dbo.T_TwitterTrendWordsHour a "
