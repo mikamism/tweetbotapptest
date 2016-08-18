@@ -30,6 +30,7 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(Reminder: exile|Reminder: EXILE|Reminder: エグザイル|Reminder: えぐざいる)', builder.DialogAction.beginDialog('/exile'))
   .matches('^(Reminder: aaa|Reminder: AAA|Reminder: とりえ|Reminder: トリエ|Reminder: トリプルエー)', builder.DialogAction.beginDialog('/aaa'))
   .matches('^(Reminder: ヤフー|Reminder: Yahoo|Reminder: yahoo|Reminder: やふー|Reminder: やほー|Reminder: ヤホー)', builder.DialogAction.beginDialog('/yahoo'))
+  .matches('^(Reminder: yahoo 1 hour)', builder.DialogAction.beginDialog('/yahoo1hour'))
   //.matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
   //.matches('^func', showFuncMessage)
   .onDefault(function (session) {
@@ -96,6 +97,22 @@ bot.add('/yahoo', [
     // DB接続
     connection.on('connect', function (err) {
       var sql = "SELECT TOP 20 CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row ,dbo.funcExistYahooSurgeMaster(a.word) newflg FROM dbo.T_YahooSurgeWordsHour a WHERE a.timeSum >= DATEADD(hour, -8, getdate()) GROUP BY a.word ORDER BY SUM(a.score) DESC;"
+      // データ取得
+      executeStatement(session, connection, sql);
+    });
+    // sessionを閉じる
+    session.endDialog();
+  },
+]);
+
+// Yahoo 1 hourの場合
+bot.add('/yahoo1hour', [
+  function (session) {
+    // コネクションの作成
+    var connection = new Connection(config);
+    // DB接続
+    connection.on('connect', function (err) {
+      var sql = "SELECT TOP 20 CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row ,dbo.funcExistYahooSurgeMaster(a.word) newflg FROM dbo.T_YahooSurgeWordsHour a WHERE a.timeSum >= DATEADD(hour, -1, getdate()) GROUP BY a.word ORDER BY SUM(a.score) DESC;"
       // データ取得
       executeStatement(session, connection, sql);
     });
