@@ -109,7 +109,7 @@ bot.add('/yahoo', [
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
                 + ",dbo.funcExistYahooSurgeMaster(a.word) newflg "
                 + "FROM dbo.T_YahooSurgeWordsHour a "
-                + "WHERE a.timeSum >= DATEADD(hour, -8, dbo.Now()) "
+                + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -8, dbo.Now()), 120)+':00') "
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
@@ -131,7 +131,7 @@ bot.add('/yahoo1hour', [
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
                 + ",dbo.funcExistYahooSurgeMasterHour(a.word) newflg "
                 + "FROM dbo.T_YahooSurgeWordsHour a "
-                + "WHERE a.timeSum >= DATEADD(hour, -1, dbo.Now()) "
+                + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -1, dbo.Now()), 120)+':00') "
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
@@ -153,7 +153,7 @@ bot.add('/twittertrend', [
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
                 + ",dbo.funcExistTwitterTrendMaster(a.word) newflg "
                 + "FROM dbo.T_TwitterTrendWordsHour a "
-                + "WHERE a.timeSum >= DATEADD(hour, -8, dbo.Now()) "
+                + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -8, dbo.Now()), 120)+':00') "
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
@@ -175,7 +175,7 @@ bot.add('/twittertrend1hour', [
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
                 + ",dbo.funcExistTwitterTrendMasterHour(a.word) newflg "
                 + "FROM dbo.T_TwitterTrendWordsHour a "
-                + "WHERE a.timeSum >= DATEADD(hour, -1, dbo.Now()) "
+                + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -1, dbo.Now()), 120)+':00') "
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
