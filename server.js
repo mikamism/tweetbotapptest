@@ -66,7 +66,11 @@ bot.add('/exile', [
     // DB接続
     connection.on('connect', function (err) {
       // SQLを生成
-      var sql = "SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a WHERE a.username IN ('USA_from EXILE',N'黒木 啓司','EXILE TETSUYA/E.P.I.','EXILE SHOKICHI','EXILE NAOTO',N'岩田 剛典') GROUP BY a.username;"
+      var sql = "SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower "
+                + "FROM dbo.TwitteruserFollowerList a "
+                + "WHERE a.username IN "
+                  + "('USA_from EXILE',N'黒木 啓司','EXILE TETSUYA/E.P.I.','EXILE SHOKICHI','EXILE NAOTO',N'岩田 剛典') "
+                + "GROUP BY a.username;"
       // データ取得
       executeStatement(session, connection, sql);
     });
@@ -82,7 +86,10 @@ bot.add('/aaa', [
     var connection = new Connection(config);
     // DB接続
     connection.on('connect', function (err) {
-      var sql = "SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower FROM dbo.TwitteruserFollowerList a WHERE a.username LIKE ('%AAA%') GROUP BY a.username;"
+      var sql = "SELECT a.username + ' ：' name,format(MAX(a.follower),N'#,0') follower "
+                + "FROM dbo.TwitteruserFollowerList a "
+                + "WHERE a.username LIKE ('%AAA%') "
+                + "GROUP BY a.username;"
       // データ取得
       executeStatement(session, connection, sql);
     });
@@ -98,7 +105,13 @@ bot.add('/yahoo', [
     var connection = new Connection(config);
     // DB接続
     connection.on('connect', function (err) {
-      var sql = "SELECT TOP 20 CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row ,dbo.funcExistYahooSurgeMaster(a.word) newflg FROM dbo.T_YahooSurgeWordsHour a WHERE a.timeSum >= DATEADD(hour, -8, getdate()) GROUP BY a.word ORDER BY SUM(a.score) DESC;"
+      var sql = "SELECT TOP 20 "
+                + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row , "
+                + "dbo.funcExistYahooSurgeMaster(a.word) newflg "
+                + "FROM dbo.T_YahooSurgeWordsHour a "
+                + "WHERE a.timeSum >= DATEADD(hour, -8, dbo.Now()) "
+                + "GROUP BY a.word "
+                + "ORDER BY SUM(a.score) DESC;"
       // データ取得
       executeStatement(session, connection, sql);
     });
@@ -114,7 +127,13 @@ bot.add('/yahoo1hour', [
     var connection = new Connection(config);
     // DB接続
     connection.on('connect', function (err) {
-      var sql = "SELECT TOP 20 CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row ,dbo.funcExistYahooSurgeMasterHour(a.word) newflg FROM dbo.T_YahooSurgeWordsHour a WHERE a.timeSum >= DATEADD(hour, -1, getdate()) GROUP BY a.word ORDER BY SUM(a.score) DESC;"
+      var sql = "SELECT TOP 20 "
+                + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
+                + ",dbo.funcExistYahooSurgeMasterHour(a.word) newflg "
+                + "FROM dbo.T_YahooSurgeWordsHour a "
+                + "WHERE a.timeSum >= DATEADD(hour, -1, dbo.Now()) "
+                + "GROUP BY a.word "
+                + "ORDER BY SUM(a.score) DESC;"
       // データ取得
       executeStatement(session, connection, sql);
     });
@@ -134,7 +153,7 @@ bot.add('/twittertrend', [
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
                 + ",dbo.funcExistTwitterTrendMaster(a.word) newflg "
                 + "FROM dbo.T_TwitterTrendWordsHour a "
-                + "WHERE a.timeSum >= DATEADD(hour, -8, getdate()) "
+                + "WHERE a.timeSum >= DATEADD(hour, -8, dbo.Now()) "
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
@@ -156,7 +175,7 @@ bot.add('/twittertrend1hour', [
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
                 + ",dbo.funcExistTwitterTrendMasterHour(a.word) newflg "
                 + "FROM dbo.T_TwitterTrendWordsHour a "
-                + "WHERE a.timeSum >= DATEADD(hour, -1, getdate()) "
+                + "WHERE a.timeSum >= DATEADD(hour, -1, dbo.Now()) "
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
