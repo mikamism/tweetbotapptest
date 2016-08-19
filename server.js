@@ -113,7 +113,7 @@ bot.add('/yahoo', [
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
-      executeStatement(session, connection, sql);
+      executeStatement(session, connection, sql), '';
     });
     // sessionを閉じる
     session.endDialog();
@@ -123,6 +123,10 @@ bot.add('/yahoo', [
 // Yahoo 1 hourの場合
 bot.add('/yahoo1hour', [
   function (session) {
+
+    // タイトルの作成
+    var title = "Yahoo!急上昇ワード：";
+
     // コネクションの作成
     var connection = new Connection(config);
     // DB接続
@@ -135,7 +139,7 @@ bot.add('/yahoo1hour', [
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
-      executeStatement(session, connection, sql);
+      executeStatement(session, connection, sql, title);
     });
     // sessionを閉じる
     session.endDialog();
@@ -157,7 +161,7 @@ bot.add('/twittertrend', [
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
-      executeStatement(session, connection, sql);
+      executeStatement(session, connection, sql, '');
     });
     // sessionを閉じる
     session.endDialog();
@@ -167,6 +171,10 @@ bot.add('/twittertrend', [
 // 1 hour Twitterの場合
 bot.add('/twittertrend1hour', [
   function (session) {
+
+    // タイトルの作成
+    var title = "Twitterトレンドワード：";
+
     // コネクションの作成
     var connection = new Connection(config);
     // DB接続
@@ -179,7 +187,7 @@ bot.add('/twittertrend1hour', [
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
-      executeStatement(session, connection, sql);
+      executeStatement(session, connection, sql, title);
     });
     // sessionを閉じる
     session.endDialog();
@@ -187,7 +195,7 @@ bot.add('/twittertrend1hour', [
 ]);
 
 // SQL Serverへ接続
-function executeStatement(session, connection, sql) {
+function executeStatement(session, connection, sql, title) {
   var Request = require('tedious').Request;
   var TYPES = require('tedious').TYPES;
 
@@ -201,6 +209,12 @@ function executeStatement(session, connection, sql) {
 
   // 結果を宣言し初期化
   var result = "";
+
+  // タイトルを付与
+  result = title;
+
+  // タイトルに時間を付与
+  result += makeJpDate();
 
   // 行を取得する度に呼ばれる
   request.on('row', function (columns) {
@@ -224,6 +238,22 @@ function executeStatement(session, connection, sql) {
 
   // SQLを実行する
   connection.execSql(request);
+}
+
+function makeJpDate() {
+  // 現在の時刻を取得
+  var dt = new Date();
+
+  // 日本時間に修正
+  dt.setTime(dt.getTime() + 32400000);
+
+  // 日付を数字として取り出す
+  var year = dt.getFullYear();
+  var month = dt.getMonth();
+  var day = dt.getDate();
+  var hour = dt.getHours();
+
+  return year + '/' + month + '/' + day + ' ' + hour + ':00';
 }
 
 // severセットアップ
