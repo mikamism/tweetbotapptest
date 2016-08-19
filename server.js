@@ -132,7 +132,7 @@ bot.add('/yahoo1hour', [
     // DB接続
     connection.on('connect', function (err) {
       var sql = "SELECT TOP 20 "
-                + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + a.word as row "
+                + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](http://search.yahoo.co.jp/search?p=' + REPLACE(a.word,'#','%23') + '&fr=krank_hb_new&ei=UTF-8&rkf=1)' as row "
                 + ",dbo.funcExistYahooSurgeMasterHour(a.word) newflg "
                 + "FROM dbo.T_YahooSurgeWordsHour a "
                 + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -1, dbo.Now()), 120)+':00') "
