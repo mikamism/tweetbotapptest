@@ -214,7 +214,7 @@ function executeStatement(session, connection, sql, title) {
   result = title;
 
   // タイトルに時間を付与
-  result += makeJpDate();
+  result += makeJpDate() + "\n\n";
 
   // 行を取得する度に呼ばれる
   request.on('row', function (columns) {
@@ -249,7 +249,7 @@ function makeJpDate() {
 
   // 日付を数字として取り出す
   var year = dt.getFullYear();
-  var month = dt.getMonth();
+  var month = dt.getMonth()+1;
   var day = dt.getDate();
   var hour = dt.getHours();
 
