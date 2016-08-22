@@ -155,7 +155,7 @@ bot.add('/twittertrend', [
     connection.on('connect', function (err) {
       var sql = "SELECT TOP 20 "
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](https://twitter.com/search?q=' + REPLACE(a.word,'#','%23') + '&src=tren)' as row "
-                + ",'[*google*](https://www.google.co.jp/trends/explore?date=all&geo=JP&q=' + REPLACE(a.word,'#','') + ')' google "
+                + ",'[ [*google*](https://www.google.co.jp/trends/explore?date=all&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' google "
                 + ",dbo.funcExistTwitterTrendMaster(a.word) newflg "
                 + "FROM dbo.T_TwitterTrendWordsHour a "
                 + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -8, dbo.Now()), 120)+':00') "
