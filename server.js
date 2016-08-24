@@ -160,10 +160,11 @@ bot.add('/twittertrend', [
     connection.on('connect', function (err) {
       var sql = "SELECT TOP 20 "
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](https://twitter.com/search?q=' + REPLACE(a.word,'#','%23') + '&src=tren)' as row "
-                + ",google = "
+                + ",'[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' google "
+                + ",trend = "
                   + "CASE dbo.funcExistGoogleTrendTwitter(a.word) "
                       + "WHEN 1 THEN '[ [*Trend*](https://www.google.co.jp/trends/explore?date=all&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' "
-                      + "ELSE '[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' "
+                      + "ELSE null "
                   + "END "
                 + ",dbo.funcExistTwitterTrendMaster(a.word) + ':' newflg "
                 + "FROM dbo.T_TwitterTrendWordsHour a "
