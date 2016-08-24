@@ -101,6 +101,10 @@ bot.add('/aaa', [
 // Yahooの場合
 bot.add('/yahoo', [
   function (session) {
+
+    // タイトルの作成
+    var title = "Yahoo!急上昇ワード(8時間集計)：";
+
     // コネクションの作成
     var connection = new Connection(config);
     // DB接続
@@ -155,6 +159,10 @@ bot.add('/yahoo1hour', [
 // Twitterトレンドの場合
 bot.add('/twittertrend', [
   function (session) {
+
+    // タイトルの作成
+    var title = "Twitterトレンドワード(8時間集計)：";
+
     // コネクションの作成
     var connection = new Connection(config);
     // DB接続
