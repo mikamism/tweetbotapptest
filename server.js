@@ -117,7 +117,7 @@ bot.add('/yahoo', [
                       + "WHEN 1 THEN '[ [*Trend*](https://www.google.co.jp/trends/explore?date=all&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' "
 	                    + "ELSE null "
                   + "END "
-                + ",dbo.funcExistYahooSurgeMaster(a.word) newflg "
+                + ",dbo.funcExistYahooSurgeMaster(a.word) + ':' newflg "
                 + "FROM dbo.T_YahooSurgeWordsHour a "
                 + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -8, dbo.Now()), 120)+':00') "
                 + "GROUP BY a.word "
