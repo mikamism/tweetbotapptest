@@ -107,6 +107,11 @@ bot.add('/yahoo', [
     connection.on('connect', function (err) {
       var sql = "SELECT TOP 20 "
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](http://search.yahoo.co.jp/search?p=' + REPLACE(a.word,'#','%23') + '&fr=krank_hb_new&ei=UTF-8&rkf=1)' as row "
+                + ",google = "
+                  + "CASE dbo.funcExistGoogleTrendYahoo(a.word) "
+                      + "WHEN 1 THEN '[ [*Trend*](https://www.google.co.jp/trends/explore?date=all&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' "
+	                    + "ELSE '[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' "
+                  + "END "
                 + ",dbo.funcExistYahooSurgeMaster(a.word) newflg "
                 + "FROM dbo.T_YahooSurgeWordsHour a "
                 + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -8, dbo.Now()), 120)+':00') "
