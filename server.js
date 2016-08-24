@@ -123,7 +123,7 @@ bot.add('/yahoo', [
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
-      executeStatement(session, connection, sql), '';
+      executeStatement(session, connection, sql,title);
     });
     // sessionを閉じる
     session.endDialog();
@@ -181,7 +181,7 @@ bot.add('/twittertrend', [
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
-      executeStatement(session, connection, sql, '');
+      executeStatement(session, connection, sql, title);
     });
     // sessionを閉じる
     session.endDialog();
