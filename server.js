@@ -121,7 +121,7 @@ bot.add('/yahoo', [
                 + "FROM dbo.T_YahooSurgeWordsHour a "
                 + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -8, dbo.Now()), 120)+':00') "
                 + "GROUP BY a.word "
-                + "ORDER BY SUM(a.score) DESC;"
+                + "ORDER BY SUM(a.score) DESC, a.word DESC;"
       // データ取得
       executeStatement(session, connection, sql,title);
     });
@@ -179,7 +179,7 @@ bot.add('/twittertrend', [
                 + "FROM dbo.T_TwitterTrendWordsHour a "
                 + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -8, dbo.Now()), 120)+':00') "
                 + "GROUP BY a.word "
-                + "ORDER BY SUM(a.score) DESC;"
+                + "ORDER BY SUM(a.score) DESC, a.word DESC;"
       // データ取得
       executeStatement(session, connection, sql, title);
     });
