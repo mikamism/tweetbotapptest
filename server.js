@@ -65,30 +65,59 @@ bot.add('/test', [
     var connection = new Connection(config);
     // DB接続
     connection.on('connect', function (err) {
-      var sql = "SELECT TOP 20 "
-                + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](http://search.yahoo.co.jp/search?p=' + REPLACE(a.word,'#','%23') + '&fr=krank_hb_new&ei=UTF-8&rkf=1)' as row "
-                + ",'[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' google "
-                + ",'[ [*Trend*](https://www.google.co.jp/trends/explore?date=all&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' trend "
-                + ",dbo.funcExistYahooSurgeMaster(a.word) + ':' newflg "
-                + "FROM dbo.T_YahooSurgeWordsHour a "
-                + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -" + csvData[2] + ","
-                 + "CONVERT(DATETIME, "
-                    + "substring('" + csvData[1] + "',1,4)+'/'+ "
-              		  + "substring('" + csvData[1] + "',5,2)+'/'+ "
-                    + "substring('" + csvData[1] + "',7,2)+' ' + "
-              		  + "substring('" + csvData[1] + "',9,2)+':00' "
-                    + ")"
-                 + "), 120)+':00') "
-                + "AND a.timeSum <= CONVERT(DATETIME,"
-                    + "substring('" + csvData[1] + "',1,4)+'/'+ "
-                    + "substring('" + csvData[1] + "',5,2)+'/'+ "
-                    + "substring('" + csvData[1] + "',7,2)+' ' + "
-                    + "substring('" + csvData[1] + "',9,2)+':00' "
-                    + ")"
-                + "GROUP BY a.word "
-                + "ORDER BY SUM(a.score) DESC, a.word DESC;"
+
+      var sql = "";
+
+      // twitterとyahooで振り分け
+      if( csvData[3] = "yahoo" ) {
+        sql = "SELECT TOP 20 "
+                  + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](http://search.yahoo.co.jp/search?p=' + REPLACE(a.word,'#','%23') + '&fr=krank_hb_new&ei=UTF-8&rkf=1)' as row "
+                  + ",'[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' google "
+                  + ",'[ [*Trend*](https://www.google.co.jp/trends/explore?date=all&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' trend "
+                  + ",dbo.funcExistYahooSurgeMaster(a.word) + ':' newflg "
+                  + "FROM dbo.T_YahooSurgeWordsHour a "
+                  + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -" + csvData[2] + ","
+                  + "CONVERT(DATETIME, "
+                      + "substring('" + csvData[1] + "',1,4)+'/'+ "
+                      + "substring('" + csvData[1] + "',5,2)+'/'+ "
+                      + "substring('" + csvData[1] + "',7,2)+' ' + "
+                      + "substring('" + csvData[1] + "',9,2)+':00' "
+                      + ")"
+                  + "), 120)+':00') "
+                  + "AND a.timeSum <= CONVERT(DATETIME,"
+                      + "substring('" + csvData[1] + "',1,4)+'/'+ "
+                      + "substring('" + csvData[1] + "',5,2)+'/'+ "
+                      + "substring('" + csvData[1] + "',7,2)+' ' + "
+                      + "substring('" + csvData[1] + "',9,2)+':00' "
+                      + ")"
+                  + "GROUP BY a.word "
+                  + "ORDER BY SUM(a.score) DESC, a.word DESC;";
+      } else {
+        sql = "SELECT TOP 20 "
+                  + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](https://twitter.com/search?q=' + REPLACE(a.word,'#','%23') + '&src=tren)' as row "
+                  + ",'[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' google "
+                  + ",'[ [*Trend*](https://www.google.co.jp/trends/explore?date=all&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' trend "
+                  + ",dbo.funcExistTwitterTrendMaster(a.word) + ':' newflg "
+                  + "FROM dbo.T_TwitterTrendWordsHour a "
+                  + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -" + csvData[2] + ","
+                  + "CONVERT(DATETIME, "
+                      + "substring('" + csvData[1] + "',1,4)+'/'+ "
+                      + "substring('" + csvData[1] + "',5,2)+'/'+ "
+                      + "substring('" + csvData[1] + "',7,2)+' ' + "
+                      + "substring('" + csvData[1] + "',9,2)+':00' "
+                      + ")"
+                  + "), 120)+':00') "
+                  + "AND a.timeSum <= CONVERT(DATETIME,"
+                      + "substring('" + csvData[1] + "',1,4)+'/'+ "
+                      + "substring('" + csvData[1] + "',5,2)+'/'+ "
+                      + "substring('" + csvData[1] + "',7,2)+' ' + "
+                      + "substring('" + csvData[1] + "',9,2)+':00' "
+                      + ")"
+                  + "GROUP BY a.word "
+                  + "ORDER BY SUM(a.score) DESC, a.word DESC;";
+      }
       // データ取得
-      executeStatement(session, connection, sql,title);
+      executeStatement(session, connection, sql,title, 1);
     });
     // sessionを閉じる
     session.endDialog();
@@ -102,6 +131,10 @@ bot.add('/test', [
 // EXILEの場合
 bot.add('/exile', [
   function (session) {
+
+    // タイトルの設定
+    var title = "EXILEメンバーのTwitterフォロワー数";
+
     // コネクションの作成
     var connection = new Connection(config);
     // DB接続
@@ -113,7 +146,7 @@ bot.add('/exile', [
                   + "('USA_from EXILE',N'黒木 啓司','EXILE TETSUYA/E.P.I.','EXILE SHOKICHI','EXILE NAOTO',N'岩田 剛典') "
                 + "GROUP BY a.username;"
       // データ取得
-      executeStatement(session, connection, sql);
+      executeStatement(session, connection, sql, title, 1);
     });
     // sessionを閉じる
     session.endDialog();
@@ -123,6 +156,10 @@ bot.add('/exile', [
 // AAAの場合
 bot.add('/aaa', [
   function (session) {
+
+    // タイトルの設定
+    var title = "AAAメンバーのTwitterフォロワー数";
+
     // コネクションの作成
     var connection = new Connection(config);
     // DB接続
@@ -132,7 +169,7 @@ bot.add('/aaa', [
                 + "WHERE a.username LIKE ('%AAA%') "
                 + "GROUP BY a.username;"
       // データ取得
-      executeStatement(session, connection, sql);
+      executeStatement(session, connection, sql, title, 1);
     });
     // sessionを閉じる
     session.endDialog();
@@ -144,7 +181,7 @@ bot.add('/yahoo', [
   function (session) {
 
     // タイトルの作成
-    var title = "Yahoo!急上昇ワード(8時間集計)：";
+    var title = "Yahoo!急上昇ワード(8時間集計)";
 
     // コネクションの作成
     var connection = new Connection(config);
@@ -160,7 +197,7 @@ bot.add('/yahoo', [
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC, a.word DESC;"
       // データ取得
-      executeStatement(session, connection, sql,title);
+      executeStatement(session, connection, sql,title, 0);
     });
     // sessionを閉じる
     session.endDialog();
@@ -188,7 +225,7 @@ bot.add('/yahoo1hour', [
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
-      executeStatement(session, connection, sql, title);
+      executeStatement(session, connection, sql, title, 0);
     });
     // sessionを閉じる
     session.endDialog();
@@ -216,7 +253,7 @@ bot.add('/twittertrend', [
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC, a.word DESC;"
       // データ取得
-      executeStatement(session, connection, sql, title);
+      executeStatement(session, connection, sql, title, 0);
     });
     // sessionを閉じる
     session.endDialog();
@@ -244,7 +281,7 @@ bot.add('/twittertrend1hour', [
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC;"
       // データ取得
-      executeStatement(session, connection, sql, title);
+      executeStatement(session, connection, sql, title, 0);
     });
     // sessionを閉じる
     session.endDialog();
@@ -252,7 +289,7 @@ bot.add('/twittertrend1hour', [
 ]);
 
 // SQL Serverへ接続
-function executeStatement(session, connection, sql, title) {
+function executeStatement(session, connection, sql, title, timeFlg) {
   var Request = require('tedious').Request;
   var TYPES = require('tedious').TYPES;
 
@@ -270,8 +307,12 @@ function executeStatement(session, connection, sql, title) {
   // タイトルを付与
   result = title;
 
-  // タイトルに時間を付与
-  result += makeJpDate() + "\n\n";
+  // 時間フラグにて時間を管理
+  if (timeFlg = 0)
+    // タイトルに時間を付与
+    result += makeJpDate() + "\n\n";
+  else
+    result += "\n\n";
 
   // 行を取得する度に呼ばれる
   request.on('row', function (columns) {
