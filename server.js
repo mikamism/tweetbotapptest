@@ -72,7 +72,7 @@ bot.add('/test', [
                 + ",dbo.funcExistYahooSurgeMaster(a.word) + ':' newflg "
                 + "FROM dbo.T_YahooSurgeWordsHour a "
                 + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -" + csvData[2] + ","
-                  "CONVERT(DATETIME, "
+                + "CONVERT(DATETIME, "
                     + "substring(" + csvData[1] + ",1,4)+'/'+ "
               		  + "substring(" + csvData[1] + ",5,2)+'/'+ "
                     + "substring(" + csvData[1] + ",7,2)+' ' + "
