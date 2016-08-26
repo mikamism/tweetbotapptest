@@ -49,11 +49,16 @@ function showFuncMessage(session) {
   session.send('あなたはファンクションを呼んだね。' + '\n\n' + 'うん、きっとそうだ');
 }
 
-// ToDo 改行テストで使用
+// テストで使用
 bot.add('/test', [
   function (session) {
+    // 投稿内容を取得
     var usertext = session.message.text;
-    session.send(usertext);
+
+    // カンマ区切りで文字列を取得
+    var csvData = usertext.split(",");
+
+    session.send('日にち:' + csvData[0], + ' / 遡る時間:' + csvData[1] + '時間分');
     session.endDialog();
   },
 ]);
