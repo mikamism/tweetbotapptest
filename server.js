@@ -33,7 +33,7 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(Reminder: 1 hour yahoo)', builder.DialogAction.beginDialog('/yahoo1hour'))
   .matches('^(Reminder: twitter)', builder.DialogAction.beginDialog('/twittertrend'))
   .matches('^(Reminder: 1 hour twitter)', builder.DialogAction.beginDialog('/twittertrend1hour'))
-  //.matches('^(test|TEST)', builder.DialogAction.beginDialog('/test'))
+  .matches('^(Reminder: test)', builder.DialogAction.beginDialog('/test'))
   //.matches('^func', showFuncMessage)
   .onDefault(function (session) {
     //var msg = 'This is a test for TweetBot of SQLServer!!';
@@ -52,8 +52,8 @@ function showFuncMessage(session) {
 // ToDo 改行テストで使用
 bot.add('/test', [
   function (session) {
-    var txt = 'You said Test!!\n\nWhat are you doing??';
-    session.send(txt);
+    var usertext = session.message.text;
+    session.send(usertext);
     session.endDialog();
   },
 ]);
