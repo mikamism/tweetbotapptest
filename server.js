@@ -58,8 +58,37 @@ bot.add('/test', [
     // カンマ区切りで文字列を取得
     var csvData = usertext.split(",");
 
-    session.send('日にち:' + csvData[1] + '\n\n遡る時間:' + csvData[2] + '時間分');
+    // タイトルの作成
+    var title = csvData[3] + "急上昇ワード(" + csvData[1] + " " + csvData[2] + "時間集計)：";
+
+    // コネクションの作成
+    var connection = new Connection(config);
+    // DB接続
+    connection.on('connect', function (err) {
+      var sql = "SELECT TOP 20 "
+                + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](http://search.yahoo.co.jp/search?p=' + REPLACE(a.word,'#','%23') + '&fr=krank_hb_new&ei=UTF-8&rkf=1)' as row "
+                + ",'[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' google "
+                + ",'[ [*Trend*](https://www.google.co.jp/trends/explore?date=all&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' trend "
+                + ",dbo.funcExistYahooSurgeMaster(a.word) + ':' newflg "
+                + "FROM dbo.T_YahooSurgeWordsHour a "
+                + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -" + csvData[2] + ","
+                  "CONVERT(DATETIME, "
+                    + "substring(" + csvData[1] + ",1,4)+'/'+ "
+              		  + "substring(" + csvData[1] + ",5,2)+'/'+ "
+                    + "substring(" + csvData[1] + ",7,2)+' ' + "
+              		  + "substring(" + csvData[1] + ",9,2)+':00' "
+                    + ")"
+                 + "), 120)+':00') "
+                + "GROUP BY a.word "
+                + "ORDER BY SUM(a.score) DESC, a.word DESC;"
+      // データ取得
+      executeStatement(session, connection, sql,title);
+    });
+    // sessionを閉じる
     session.endDialog();
+
+    //session.send('日にち:' + csvData[1] + '\n\n遡る時間:' + csvData[2] + '時間分');
+    //session.endDialog();
   },
 ]);
 
