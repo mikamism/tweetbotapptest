@@ -62,9 +62,9 @@ bot.add('/test', [
     var title = csvData[3] + "急上昇ワード(" + csvData[1] + " " + csvData[2] + "時間集計)：";
 
     // コネクションの作成
-    //var connection = new Connection(config);
+    var connection = new Connection(config);
     // DB接続
-    //connection.on('connect', function (err) {
+    connection.on('connect', function (err) {
       var sql = "SELECT TOP 20 "
                 + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](http://search.yahoo.co.jp/search?p=' + REPLACE(a.word,'#','%23') + '&fr=krank_hb_new&ei=UTF-8&rkf=1)' as row "
                 + ",'[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' google "
@@ -73,23 +73,23 @@ bot.add('/test', [
                 + "FROM dbo.T_YahooSurgeWordsHour a "
                 + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -" + csvData[2] + ","
                 + "CONVERT(DATETIME, "
-                    + "substring(" + csvData[1] + ",1,4)+'/'+ "
-              		  + "substring(" + csvData[1] + ",5,2)+'/'+ "
-                    + "substring(" + csvData[1] + ",7,2)+' ' + "
-              		  + "substring(" + csvData[1] + ",9,2)+':00' "
+                    + "substring('" + csvData[1] + "',1,4)+'/'+ "
+              		  + "substring('" + csvData[1] + "',5,2)+'/'+ "
+                    + "substring('" + csvData[1] + "',7,2)+' ' + "
+              		  + "substring('" + csvData[1] + "',9,2)+':00' "
                     + ")"
                  + "), 120)+':00') "
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC, a.word DESC;"
       // データ取得
-      //executeStatement(session, connection, sql,title);
-    //});
+      executeStatement(session, connection, sql,title);
+    });
     // sessionを閉じる
-    //session.endDialog();
+    session.endDialog();
 
     //session.send('日にち:' + csvData[1] + '\n\n遡る時間:' + csvData[2] + '時間分');
-    session.send(sql);
-    session.endDialog();
+    //session.send(sql);
+    //session.endDialog();
   },
 ]);
 
