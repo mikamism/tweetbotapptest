@@ -58,7 +58,7 @@ bot.add('/test', [
     // カンマ区切りで文字列を取得
     var csvData = usertext.split(",");
 
-    session.send('日にち:' + csvData[0], + ' / 遡る時間:' + csvData[1] + '時間分');
+    session.send('日にち:' + csvData[1], + ' / 遡る時間:' + csvData[2] + '時間分');
     session.endDialog();
   },
 ]);
