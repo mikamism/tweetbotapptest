@@ -69,7 +69,7 @@ bot.add('/test', [
       var sql = "";
 
       // twitterとyahooで振り分け
-      if( csvData[3] = "yahoo" ) {
+      if( csvData[3] == "yahoo" ) {
         sql = "SELECT TOP 20 "
                   + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](http://search.yahoo.co.jp/search?p=' + REPLACE(a.word,'#','%23') + '&fr=krank_hb_new&ei=UTF-8&rkf=1)' as row "
                   + ",'[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' google "
@@ -308,7 +308,7 @@ function executeStatement(session, connection, sql, title, timeFlg) {
   result = title;
 
   // 時間フラグにて時間を管理
-  if (timeFlg = 0)
+  if (timeFlg == 0)
     // タイトルに時間を付与
     result += makeJpDate() + "\n\n";
   else
