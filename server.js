@@ -34,7 +34,7 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(Reminder: twitter)', builder.DialogAction.beginDialog('/twittertrend'))
   .matches('^(Reminder: 1 hour twitter)', builder.DialogAction.beginDialog('/twittertrend1hour'))
   .matches('^(Reminder: dat)', builder.DialogAction.beginDialog('/dat'))
-  //.matches('^func', showFuncMessage)
+  .matches('^help', showHelp)
   .onDefault(function (session) {
     //var msg = 'This is a test for TweetBot of SQLServer!!';
     //var usertext = session.message.text;
@@ -44,9 +44,15 @@ bot.add('/', new builder.CommandDialog()
   })
 );
 
-// ToDo 改行テストで使用
-function showFuncMessage(session) {
-  session.send('あなたはファンクションを呼んだね。' + '\n\n' + 'うん、きっとそうだ');
+// ヘルプが呼ばれた場合
+function showHelp(session) {
+  session.send('◆日時とそこからn時間分のサマリーを指定する場合\n\n'
+              + 'Reminder: dat,指定日(yyyymmddhh24),n,yahoo or twitter\n\n'
+              + '例：Yahooトレンドワードの2016年8月20日15時から8時間分のサマリーを取得する場合\n\n'
+              + 'Reminder: dat,2016082015,8,yahoo'
+              );
+  ession.endDialog();
+
 }
 
 // 日時指定
