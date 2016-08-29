@@ -337,6 +337,12 @@ function executeStatement(session, connection, sql, title, timeFlg) {
   // 最後に呼ばれる
   request.on('doneProc', function (rowCount, more) {
     console.log(rowCount + ' rows returned');
+
+    // 結果が1件もない場合
+    if (result.length == 0) {
+      result = "検索結果がありません。条件を変更してください。"
+    }
+
     session.send(result);
   });
 
