@@ -64,7 +64,7 @@ bot.add('/test', [
     // コネクションの作成
     var connection = new Connection(config);
     // DB接続
-    connection.on('connect', function (err) {
+    //connection.on('connect', function (err) {
 
       var sql = "";
 
@@ -118,7 +118,7 @@ bot.add('/test', [
       }
       // データ取得
       //executeStatement(session, connection, sql,title, 1);
-    });
+    //});
     // sessionを閉じる
     //session.endDialog();
 
