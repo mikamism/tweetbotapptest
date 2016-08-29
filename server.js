@@ -51,7 +51,7 @@ function showHelp(session) {
               + '例：Yahooトレンドワードの2016年8月20日15時から8時間分のサマリーを取得する場合\n\n'
               + 'Reminder: dat,2016082015,8,yahoo'
               );
-  ession.endDialog();
+  session.endDialog();
 
 }
 
