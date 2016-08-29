@@ -344,7 +344,7 @@ function executeStatement(session, connection, sql, title, timeFlg) {
     console.log(rowCount + ' rows returned');
 
     // 結果が1件もない場合
-    if (searchResult == 1) {
+    if (searchResult == 0) {
       result += "検索結果がありません。条件を変更してください。"
     }
     // 結果の出力 
