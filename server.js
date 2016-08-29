@@ -329,14 +329,13 @@ function executeStatement(session, connection, sql, title, timeFlg) {
     columns.forEach(function (column) {
       if (column.value === null) {
         console.log('NULL');
-        // 検索結果がない場合はフラグを立てる
-        searchResult = 1;
       } else {
         result += column.value + " ";
       }
     });
     // 改行をセット
     result += "\n\n";
+    searchResult = 1;
   });
 
   // 最後に呼ばれる
