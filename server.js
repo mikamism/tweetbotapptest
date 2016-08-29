@@ -64,7 +64,7 @@ bot.add('/test', [
     // コネクションの作成
     var connection = new Connection(config);
     // DB接続
-    //connection.on('connect', function (err) {
+    connection.on('connect', function (err) {
 
       var sql = "";
 
@@ -117,14 +117,14 @@ bot.add('/test', [
                   + "ORDER BY SUM(a.score) DESC, a.word DESC;";
       }
       // データ取得
-      //executeStatement(session, connection, sql,title, 1);
-    //});
+      executeStatement(session, connection, sql,title, 1);
+    });
     // sessionを閉じる
-    //session.endDialog();
+    session.endDialog();
 
     //session.send('日にち:' + csvData[1] + '\n\n遡る時間:' + csvData[2] + '時間分');
-    session.send("sql:" + sql);
-    session.endDialog();
+    //session.send("sql:" + sql);
+    //session.endDialog();
   },
 ]);
 
