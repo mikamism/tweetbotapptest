@@ -33,7 +33,7 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(Reminder: 1 hour yahoo)', builder.DialogAction.beginDialog('/yahoo1hour'))
   .matches('^(Reminder: twitter)', builder.DialogAction.beginDialog('/twittertrend'))
   .matches('^(Reminder: 1 hour twitter)', builder.DialogAction.beginDialog('/twittertrend1hour'))
-  .matches('^(Reminder: test)', builder.DialogAction.beginDialog('/test'))
+  .matches('^(Reminder: dat)', builder.DialogAction.beginDialog('/dat'))
   //.matches('^func', showFuncMessage)
   .onDefault(function (session) {
     //var msg = 'This is a test for TweetBot of SQLServer!!';
@@ -49,8 +49,8 @@ function showFuncMessage(session) {
   session.send('あなたはファンクションを呼んだね。' + '\n\n' + 'うん、きっとそうだ');
 }
 
-// テストで使用
-bot.add('/test', [
+// 日時指定
+bot.add('/dat', [
   function (session) {
     // 投稿内容を取得
     var usertext = session.message.text;
