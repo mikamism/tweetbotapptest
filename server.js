@@ -69,7 +69,7 @@ bot.add('/test', [
       var sql = "";
 
       // twitterとyahooで振り分け
-      if( csvData[3].indexOf("yah") > 0 ) {
+      if( usertext.indexOf("yahoo") != -1 ) {
         sql = "SELECT TOP 20 "
                   + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](http://search.yahoo.co.jp/search?p=' + REPLACE(a.word,'#','%23') + '&fr=krank_hb_new&ei=UTF-8&rkf=1)' as row "
                   + ",'[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' google "
@@ -123,7 +123,7 @@ bot.add('/test', [
     //session.endDialog();
 
     //session.send('日にち:' + csvData[1] + '\n\n遡る時間:' + csvData[2] + '時間分');
-    session.send(sql);
+    session.send("sql:" + sql);
     session.endDialog();
   },
 ]);
