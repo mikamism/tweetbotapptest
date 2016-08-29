@@ -313,6 +313,9 @@ function executeStatement(session, connection, sql, title, timeFlg) {
   // タイトルを付与
   result = title;
 
+  // 検索結果判定フラグ
+  var searchResult = 0;
+
   // 時間フラグにて時間を管理
   if (timeFlg == 0)
     // タイトルに時間を付与
@@ -326,6 +329,8 @@ function executeStatement(session, connection, sql, title, timeFlg) {
     columns.forEach(function (column) {
       if (column.value === null) {
         console.log('NULL');
+        // 検索結果がない場合はフラグを立てる
+        searchResult = 1;
       } else {
         result += column.value + " ";
       }
@@ -339,10 +344,10 @@ function executeStatement(session, connection, sql, title, timeFlg) {
     console.log(rowCount + ' rows returned');
 
     // 結果が1件もない場合
-    if (result.length == 0) {
-      result = "検索結果がありません。条件を変更してください。"
+    if (searchResult == 1) {
+      result += "検索結果がありません。条件を変更してください。"
     }
-
+    // 結果の出力 
     session.send(result);
   });
 
