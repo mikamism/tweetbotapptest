@@ -79,9 +79,9 @@ bot.add('/dat', [
                   + "2016082518";
     } else {
       year = csvData[1].substring(0,4);
-      month = csvData[1].substring(4,1);
-      day = csvData[1].substring(6,1);
-      hour = csvData[1].substring(8,1);
+      month = csvData[1].substring(4,6);
+      day = csvData[1].substring(6,8);
+      hour = csvData[1].substring(8,10);
     }
 
     // タイトルの作成
