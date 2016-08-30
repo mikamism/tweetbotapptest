@@ -64,8 +64,28 @@ bot.add('/dat', [
     // カンマ区切りで文字列を取得
     var csvData = usertext.split(",");
 
+    // 形式チェックテキスト
+    var textFormat = "";
+    var year = "";
+    var month = "";
+    var day = "";
+    var hour = "";
+
+    // 日時の形式に問題ないかチェック
+    if( csvData[1].length != 10 ) {
+      textFormat = "日時の形式が正しくありません。\n\n"
+                  + "yyyymmddhh24の形式で入力してください。\n\n"
+                  + "例）2016年8月25日18時の場合\n\n"
+                  + "2016082518";
+    } else {
+      year = csvData[1].substring(0,4);
+      month = csvData[1].substring(4,1);
+      day = csvData[1].substring(6,1);
+      hour = csvData[1].substring(8,1);
+    }
+
     // タイトルの作成
-    var title = csvData[3] + "急上昇ワード(" + csvData[1] + " " + csvData[2] + "時間集計)";
+    var title = csvData[3] + "急上昇ワード(" + year + "年" + month + "月" + day + "日"+ hour + "時" + " " + csvData[2] + "時間集計)";
 
     // コネクションの作成
     var connection = new Connection(config);
