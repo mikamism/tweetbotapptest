@@ -207,7 +207,7 @@ bot.add('/yahoo', [
   function (session) {
 
     // タイトルの作成
-    var title = "Yahoo!急上昇ワード(8時間集計)";
+    var title = "Yahoo!急上昇ワード(1日集計)";
 
     // コネクションの作成
     var connection = new Connection(config);
@@ -219,7 +219,7 @@ bot.add('/yahoo', [
                 + ",'[ [*Trend*](https://www.google.co.jp/trends/explore?date=now%201-d&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' trend "
                 + ",dbo.funcExistYahooSurgeMaster(a.word) + ':' newflg "
                 + "FROM dbo.T_YahooSurgeWordsHour a "
-                + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -8, dbo.Now()), 120)+':00') "
+                + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -24, dbo.Now()), 120)+':00') "
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC, a.word DESC;"
       // データ取得
@@ -263,7 +263,7 @@ bot.add('/twittertrend', [
   function (session) {
 
     // タイトルの作成
-    var title = "Twitterトレンドワード(8時間集計)：";
+    var title = "Twitterトレンドワード(1日集計)：";
 
     // コネクションの作成
     var connection = new Connection(config);
@@ -275,7 +275,7 @@ bot.add('/twittertrend', [
                 + ",'[ [*Trend*](https://www.google.co.jp/trends/explore?date=now%201-d&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' trend "
                 + ",dbo.funcExistTwitterTrendMaster(a.word) + ':' newflg "
                 + "FROM dbo.T_TwitterTrendWordsHour a "
-                + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -8, dbo.Now()), 120)+':00') "
+                + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -24, dbo.Now()), 120)+':00') "
                 + "GROUP BY a.word "
                 + "ORDER BY SUM(a.score) DESC, a.word DESC;"
       // データ取得
