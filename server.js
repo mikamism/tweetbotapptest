@@ -347,6 +347,7 @@ function executeStatement(session, connection, sql, title, timeFlg) {
   var request = new Request(sql, function (err) {
     if (err) {
       session.send('クエリ作成時にエラーが発生しました。管理者へお問い合わせください。');
+      session.send(sql);
       console.log(err);
     }
   });
