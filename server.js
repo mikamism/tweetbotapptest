@@ -312,7 +312,7 @@ bot.add('/twittertrend1hour', [
     var huga = 0;
     var hoge = setInterval(function() {
       huga++;
-      if (huge == 10) {
+      if (huga == 10) {
         clearInterval(hoge);
       }
     }, 10000);
