@@ -315,7 +315,7 @@ bot.add('/twittertrend1hour', [
       if (huga == 10) {
         clearInterval(hoge);
       }
-    }, 10000);
+    }, 500);
 
     // タイトルの作成
     var title = "Twitterトレンドワード：";
