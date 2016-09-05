@@ -259,7 +259,7 @@ bot.add('/yahoo1hour', [
 ]);
 
 // Twitterトレンドの場合
-bot.add('/twittertrend', [
+bot.add('/twittertrend', [ setTimeout(
   function (session) {
 
     // タイトルの作成
@@ -283,7 +283,7 @@ bot.add('/twittertrend', [
     });
     // sessionを閉じる
     session.endDialog();
-  },
+  },10000),
 ]);
 
 // 1 hour Twitterの場合
