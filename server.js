@@ -207,10 +207,13 @@ bot.add('/yahoo', [
   function (session) {
 
     // 処理を5秒遅らせる
-    h = function() {
-      return (new Date).getTime();
-    };
-    for ( var a = h(); !(5000 < h() - a); );
+    var huga = 0;
+    var hoge = setInterval(function() {
+      huga++;
+      if (huga == 10) {
+        clearInterval(hoge);
+      }
+    }, 500);
 
     // タイトルの作成
     var title = "Yahoo!急上昇ワード(1日集計)";
@@ -241,10 +244,13 @@ bot.add('/yahoo1hour', [
   function (session) {
 
     // 処理を5秒遅らせる
-    h = function() {
-      return (new Date).getTime();
-    };
-    for ( var a = h(); !(5000 < h() - a); );
+    var huga = 0;
+    var hoge = setInterval(function() {
+      huga++;
+      if (huga == 10) {
+        clearInterval(hoge);
+      }
+    }, 500);
 
     // タイトルの作成
     var title = "Yahoo!急上昇ワード：";
@@ -275,10 +281,13 @@ bot.add('/twittertrend', [
   function (session) {
 
     // 処理を10秒遅らせる
-    h = function() {
-      return (new Date).getTime();
-    };
-    for ( var a = h(); !(10000 < h() - a); );
+    var huga = 0;
+    var hoge = setInterval(function() {
+      huga++;
+      if (huga == 10) {
+        clearInterval(hoge);
+      }
+    }, 1000);
 
     // タイトルの作成
     var title = "Twitterトレンドワード(1日集計)：";
