@@ -309,14 +309,13 @@ bot.add('/twittertrend1hour', [
   function (session) {
 
     // 処理を10秒遅らせる
-    var wait = function(mesc) {
-      var tID = 0;
-      if (arguments[1]) {
-        clearTimeout(tID);
-        return true;
+    var huga = 0;
+    var hoge = setInterval(function() {
+      huga++;
+      if (huge == 10) {
+        clearInterval(hoge);
       }
-      setTimeout("wait(0,true)",10000);
-    }
+    }, 10000);
 
     // タイトルの作成
     var title = "Twitterトレンドワード：";
