@@ -240,6 +240,12 @@ bot.add('/yahoo', [
 bot.add('/yahoo1hour', [
   function (session) {
 
+    // 処理を5秒遅らせる
+    h = function() {
+      return (new Date).getTime();
+    };
+    for ( var a = h(); !(5000 < h() - a); );
+
     // タイトルの作成
     var title = "Yahoo!急上昇ワード：";
 
@@ -301,6 +307,12 @@ bot.add('/twittertrend', [
 // 1 hour Twitterの場合
 bot.add('/twittertrend1hour', [
   function (session) {
+
+    // 処理を10秒遅らせる
+    h = function() {
+      return (new Date).getTime();
+    };
+    for ( var a = h(); !(10000 < h() - a); );
 
     // タイトルの作成
     var title = "Twitterトレンドワード：";
