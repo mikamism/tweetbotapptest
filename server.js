@@ -9,6 +9,14 @@ var builder = require('botbuilder');
 // コネクションの作成
 var Connection = require('tedious').Connection;
 
+// 排他処理
+var async = require('async');
+
+// 同時実行を1に制限
+var q = async.queue(function (task, done) {
+  done();
+},1);
+
 // Azure上のbotを設定
 var bot = new builder.BotConnectorBot({
   appId: 'sample-tweet-bot',
@@ -207,13 +215,10 @@ bot.add('/yahoo', [
   function (session) {
 
     // 処理を5秒遅らせる
-    var huga = 0;
-    var hoge = setInterval(function() {
-      huga++;
-      if (huga == 10) {
-        clearInterval(hoge);
-      }
-    }, 500);
+    h = function() {
+      return (new Date).getTime();
+    };
+    for ( var a = h(); !(5000 < h() - a); );
 
     // タイトルの作成
     var title = "Yahoo!急上昇ワード(1日集計)";
@@ -355,12 +360,15 @@ function executeStatement(session, connection, sql, title, timeFlg) {
   var Request = require('tedious').Request;
   var TYPES = require('tedious').TYPES;
 
+  q.pause();
+
   // クエリの作成
   var request = new Request(sql, function (err) {
     if (err) {
       session.send('クエリ作成時にエラーが発生しました。管理者へお問い合わせください。');
       session.send(sql);
       console.log(err);
+      q.resume();
     }
   });
 
@@ -405,6 +413,8 @@ function executeStatement(session, connection, sql, title, timeFlg) {
     }
     // 結果の出力 
     session.send(result);
+
+    q.resume();
   });
 
   // SQLを実行する
