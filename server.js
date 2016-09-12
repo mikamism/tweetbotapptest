@@ -306,8 +306,8 @@ bot.add('/twittertrend', [
     }, 1000);
     */
     var startTime = new Date().getTime();
-    // 4秒処理を遅らせる
-    while( new Date().getTime() < startTime + 4000);
+    // 0.5秒処理を遅らせる
+    while( new Date().getTime() < startTime + 500);
 
     // タイトルの作成
     var title = "Twitterトレンドワード(1日集計)：";
@@ -348,8 +348,8 @@ bot.add('/twittertrend1hour', [
     }, 1000);
     */
     var startTime = new Date().getTime();
-    // 4秒処理を遅らせる
-    while( new Date().getTime() < startTime + 4000);
+    // 0.5秒処理を遅らせる
+    while( new Date().getTime() < startTime + 500);
 
     // タイトルの作成
     var title = "Twitterトレンドワード：";
