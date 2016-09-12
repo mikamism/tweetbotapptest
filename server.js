@@ -223,7 +223,7 @@ bot.add('/yahoo', [
     */
     var startTime = new Date().getTime();
     // 5秒処理を遅らせる
-    while( new Date().getTime() < startTime + 5000);
+    while( new Date().getTime() < startTime + 3000);
 
     // タイトルの作成
     var title = "Yahoo!急上昇ワード(1日集計)";
@@ -265,7 +265,7 @@ bot.add('/yahoo1hour', [
     */
     var startTime = new Date().getTime();
     // 5秒処理を遅らせる
-    while( new Date().getTime() < startTime + 5000);
+    while( new Date().getTime() < startTime + 3000);
 
     // タイトルの作成
     var title = "Yahoo!急上昇ワード：";
@@ -307,7 +307,7 @@ bot.add('/twittertrend', [
     */
     var startTime = new Date().getTime();
     // 10秒処理を遅らせる
-    while( new Date().getTime() < startTime + 10000);
+    while( new Date().getTime() < startTime + 5000);
 
     // タイトルの作成
     var title = "Twitterトレンドワード(1日集計)：";
@@ -349,7 +349,7 @@ bot.add('/twittertrend1hour', [
     */
     var startTime = new Date().getTime();
     // 10秒処理を遅らせる
-    while( new Date().getTime() < startTime + 10000);
+    while( new Date().getTime() < startTime + 5000);
 
     // タイトルの作成
     var title = "Twitterトレンドワード：";
