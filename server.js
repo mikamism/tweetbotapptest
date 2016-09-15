@@ -438,7 +438,7 @@ function executeStatement(session, connection, sql, title, timeFlg) {
   });
 
   // SQLを実行する
-  setTimeout(connection.execSql(request),1000);
+  setTimeout(connection.execSql(request),200);
 }
 
 function makeJpDate() {
