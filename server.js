@@ -44,11 +44,8 @@ bot.add('/', new builder.CommandDialog()
   .matches('^(Reminder: dat)', builder.DialogAction.beginDialog('/dat'))
   .matches('^help', showHelp)
   .onDefault(function (session) {
-    //var msg = 'This is a test for TweetBot of SQLServer!!';
-    //var usertext = session.message.text;
-    //builder.Prompts.text(session, usertext);
-    //session.send('Hello, I am Test bot! ' + msg);
-    //session.send('You said \n' + usertext);
+    // 何もせずに処理を終了する
+    session.endDialog();
   })
 );
 
@@ -60,7 +57,6 @@ function showHelp(session) {
               + 'Reminder: dat,2016082015,8,yahoo'
               );
   session.endDialog();
-
 }
 
 // 日時指定
