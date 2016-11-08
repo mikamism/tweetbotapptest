@@ -104,9 +104,14 @@ bot.add('/dat', [
         // twitterとyahooで振り分け
         if( usertext.indexOf("yahoo") != -1 ) {
           sql = "SELECT TOP 20 "
+                    /*
                     + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](http://search.yahoo.co.jp/search?p=' + REPLACE(a.word,'#','%23') + '&fr=krank_hb_new&ei=UTF-8&rkf=1)' as row "
                     + ",'[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' google "
                     + ",'[ [*Trend*](https://www.google.co.jp/trends/explore?date=now%201-d&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' trend "
+                    */
+                    + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + '<http://search.yahoo.co.jp/search?p=' + REPLACE(a.word,'#','%23') + '&fr=krank_hb_new&ei=UTF-8&rkf=1|[' + a.word + ']>' as row "
+                    + ",'<https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + '|[*Google*]>' google"
+                    + ",'<https://www.google.co.jp/trends/explore?date=now%201-d&geo=JP&q=' + REPLACE(a.word,'#','') + '|[*Trend*]>' trend "
                     + ",dbo.funcExistYahooSurgeMaster(a.word) + ':' newflg "
                     + "FROM dbo.T_YahooSurgeWordsHour a "
                     + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -" + csvData[2] + ","
@@ -127,9 +132,14 @@ bot.add('/dat', [
                     + "ORDER BY SUM(a.score) DESC, a.word DESC;";
         } else {
           sql = "SELECT TOP 20 "
+                    /*
                     + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： [' + a.word + '](https://twitter.com/search?q=' + REPLACE(a.word,'#','%23') + '&src=tren)' as row "
                     + ",'[ [*Google*](https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + ') ]' google "
                     + ",'[ [*Trend*](https://www.google.co.jp/trends/explore?date=now%201-d&geo=JP&q=' + REPLACE(a.word,'#','') + ') ]' trend "
+                    */
+                    + "CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY SUM(a.score) DESC)) + ' ： ' + '<https://twitter.com/search?q=' + REPLACE(a.word,'#','%23') + '&src=tren|[' + a.word + ']>' as row "
+                    + ",'<https://www.google.co.jp/search?q=' + REPLACE(a.word,'#','') + '|[*Google*]>' google "
+                    + ",'<https://www.google.co.jp/trends/explore?date=now%201-d&geo=JP&q=' + REPLACE(a.word,'#','') + '|[*Trend*]>' trend "
                     + ",dbo.funcExistTwitterTrendMaster(a.word) + ':' newflg "
                     + "FROM dbo.T_TwitterTrendWordsHour a "
                     + "WHERE a.timeSum >= CONVERT(DATETIME, CONVERT(varchar(13), DATEADD(hour, -" + csvData[2] + ","
