@@ -75,6 +75,8 @@ bot.add('/dat', [
     var day = "";
     var hour = "";
 
+    console.log("logTest:" + usertext);
+
     // 日時の形式に問題ないかチェック
     if( csvData[1].length != 10 ) {
       textFormat = "日時の形式が正しくありません。\n\n"
